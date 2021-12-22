@@ -11,7 +11,7 @@
 
 
       <v-tabs align-with-title class="tabs">
-        <v-tab @click="getPage('restaurants')">Restaurants</v-tab>
+        <v-tab @click="navigate('restaurants')">Restaurants</v-tab>
       </v-tabs>
 
       <v-btn icon>
@@ -33,8 +33,11 @@
 
 export default {
   name: "Header",
+
   methods:{
-    getPage(page){
+    // navigate to another page
+    // @page should be a name defined in index.js
+    navigate(page){
       this.$router.push(page)
     }
   }
