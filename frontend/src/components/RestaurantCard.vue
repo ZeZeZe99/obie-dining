@@ -1,0 +1,28 @@
+<template>
+  <v-card class="restaurant-card">
+    <v-img contain height="200px" :src="getImgUrl(imageName)"></v-img>
+    <h2>{{restaurant}}</h2>
+  </v-card>
+</template>
+
+<script>
+export default {
+  name: "RestaurantCard",
+  props:{
+    restaurant: {required: true, type: String},
+    imageName: {required: true, type: String}
+  },
+  methods:{
+    getImgUrl(img){
+      return require('../assets/' + img)
+    }
+  }
+}
+</script>
+
+<style scoped>
+.restaurant-card{
+  height: 500px;
+  width: 300px;
+}
+</style>
