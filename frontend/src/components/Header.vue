@@ -7,9 +7,12 @@
     <v-app-bar dense height="80%" color="white">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Obie Dining</v-toolbar-title>
+      <v-toolbar-title class="bar-title">Obie Dining</v-toolbar-title>
 
-      <v-spacer></v-spacer>
+
+      <v-tabs align-with-title class="tabs">
+        <v-tab @click="getPage('restaurants')">Restaurants</v-tab>
+      </v-tabs>
 
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
@@ -27,11 +30,20 @@
 </template>
 
 <script>
+
 export default {
-  name: "Header"
+  name: "Header",
+  methods:{
+    getPage(page){
+      this.$router.push(page)
+    }
+  }
 }
 </script>
 
 <style scoped>
+.bar-title{
+  width: 200px !important;
+}
 
 </style>
