@@ -6,14 +6,18 @@
   >
     <v-app-bar dense height="80%" color="white">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
+<!--title-->
       <v-toolbar-title class="bar-title">Obie Dining</v-toolbar-title>
 
-
+<!--      tabs-->
       <v-tabs align-with-title class="tabs">
         <v-tab @click="navigate('restaurants')">Restaurants</v-tab>
+        <v-tab>Search Food</v-tab>
+        <v-tab>About</v-tab>
+        <v-tab>Contact Us</v-tab>
       </v-tabs>
 
+<!--      buttons-->
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>

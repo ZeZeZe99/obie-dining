@@ -32,10 +32,10 @@ const routes = [
         path: '/',
         redirect: {name: 'home'}
     },
-    {
-        path: '*',
-        redirect: {name: 'home'}
-    }
+    // {
+    //     path: '*',
+    //     redirect: {name: 'home'}
+    // }
 ];
 
 export default new Router({

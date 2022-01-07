@@ -23,9 +23,29 @@
 <script>
 // import children component
 import RestaurantCard from "@/components/RestaurantCard";
+import axios from "axios";
 export default {
   name: "Restaurants",
-  components: {RestaurantCard}
+  components: {RestaurantCard},
+  data(){
+    return{
+      restaurants: []
+    }
+  },
+
+  mounted() {
+    this.getRestaurants();
+  },
+  methods:{
+    getRestaurants() {
+      axios
+          // .get('/greeting')
+          .get('/restaurants/get/')
+          .then(response => (this.restaurants = response.data))
+      console.log(this.restaurants)
+    }
+  }
+
 }
 </script>
 
