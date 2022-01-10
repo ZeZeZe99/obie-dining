@@ -6,9 +6,10 @@ import javax.persistence.*;
 
 @Data
 @Entity
-//@Table(name = "dish")
+@Table(name = "dish")
 public class Dish {
     @Id
+    @GeneratedValue
     private Integer id;
 
     private String name;

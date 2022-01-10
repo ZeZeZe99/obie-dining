@@ -10,9 +10,10 @@ import java.util.List;
 @Table(name = "restaurant")
 public class Restaurant {
     @Id
-    private Integer resId;
+    @GeneratedValue
+    private Integer id;
 
-    private String resName;
+    private String name;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Bar.class, mappedBy = "restaurant")
     private List<Bar> bars;

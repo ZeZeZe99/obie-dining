@@ -1,8 +1,8 @@
 package com.cs311.backend.service;
 
 import com.cs311.backend.entity.Restaurant;
-import com.cs311.backend.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
+import com.cs311.backend.repository.RestaurantRepository;
 
 import java.util.List;
 

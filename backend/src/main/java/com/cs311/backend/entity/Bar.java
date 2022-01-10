@@ -7,15 +7,16 @@ import java.util.List;
 
 @Data
 @Entity
-//@Table(name="bar")
+@Table(name="bar")
 public class Bar {
     @Id
+    @GeneratedValue
     private Integer id;
 
     private String name;
 
     @ManyToOne(targetEntity = Restaurant.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "resId")
+    @JoinColumn
     private Restaurant restaurant;
 
     @OneToMany(targetEntity = Dish.class, fetch = FetchType.LAZY, mappedBy = "bar")

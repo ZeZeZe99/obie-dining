@@ -2,6 +2,7 @@ package com.cs311.backend.service;
 
 import com.cs311.backend.entity.Dish;
 import com.cs311.backend.repository.BarRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
