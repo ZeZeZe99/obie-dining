@@ -1,6 +1,9 @@
+<!--Basic Layout-->
 <template>
   <v-app>
+<!--    header-->
     <Header class="header"></Header>
+<!--    body-->
     <v-main>
       <v-container>
         <router-view></router-view>
@@ -10,6 +13,7 @@
 </template>
 
 <script>
+// import children components
 import Header from "@/components/Header";
 export default {
   name: "Home",

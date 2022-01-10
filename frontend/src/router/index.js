@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+// import components
 import Home from '@/components/Home'
 import HelloWorld from "@/components/HelloWorld"
 import Restaurants from "@/components/Restaurants";
@@ -31,10 +32,10 @@ const routes = [
         path: '/',
         redirect: {name: 'home'}
     },
-    {
-        path: '*',
-        redirect: {name: 'home'}
-    }
+    // {
+    //     path: '*',
+    //     redirect: {name: 'home'}
+    // }
 ];
 
 export default new Router({
