@@ -1,6 +1,7 @@
 /* The entity class for restaurant */
 package com.cs311.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Restaurant {
 
     // specify the relationship to another entity
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Bar.class, mappedBy = "restaurant")
+    @JsonManagedReference // forward of the reference, to be serialized
     private List<Bar> bars;
 
 

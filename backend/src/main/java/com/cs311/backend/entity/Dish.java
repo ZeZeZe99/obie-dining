@@ -1,5 +1,6 @@
 package com.cs311.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,5 +17,6 @@ public class Dish {
 
     @ManyToOne(targetEntity = Bar.class, fetch = FetchType.LAZY)
     @JoinColumn
+    @JsonBackReference
     private Bar bar;
 }

@@ -1,5 +1,7 @@
 package com.cs311.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,9 +19,11 @@ public class Bar {
 
     @ManyToOne(targetEntity = Restaurant.class, fetch = FetchType.LAZY)
     @JoinColumn
+    @JsonBackReference // back of reference, not serialized
     private Restaurant restaurant;
 
     @OneToMany(targetEntity = Dish.class, fetch = FetchType.LAZY, mappedBy = "bar")
+    @JsonManagedReference
     private List<Dish> dishes;
 
 }
