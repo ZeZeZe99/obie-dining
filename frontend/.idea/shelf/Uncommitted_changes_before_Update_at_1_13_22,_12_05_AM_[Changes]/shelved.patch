@@ -1,0 +1,411 @@
+Index: src/components/RestaurantCard.vue
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><template>\n  <v-card class=\"restaurant-card\">\n    <v-img contain height=\"200px\" :src=\"getImgUrl(imageName)\"></v-img>\n    <h2>{{restaurant}}</h2>\n    <v-btn color=\"primary\">Menu</v-btn>\n  </v-card>\n</template>\n\n<script>\nexport default {\n  name: \"RestaurantCard\",\n  // arguments passed in from parent component\n  props:{\n    restaurant: {required: true, type: String},\n    imageName: {required: true, type: String}\n  },\n  // methods to be used in this component\n  methods:{\n    getImgUrl(img){\n      return require('../assets/' + img)\n    }\n  }\n}\n</script>\n\n<style scoped>\n.restaurant-card{\n  height: 500px;\n  width: 300px;\n}\n</style>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/RestaurantCard.vue b/src/components/RestaurantCard.vue
+--- a/src/components/RestaurantCard.vue	(revision 6a4436007997849d29c34310088a73bf1d1d6ed5)
++++ b/src/components/RestaurantCard.vue	(date 1642049746665)
+@@ -1,31 +1,77 @@
+ <template>
++  <!--  This component is a card-->
+   <v-card class="restaurant-card">
+-    <v-img contain height="200px" :src="getImgUrl(imageName)"></v-img>
+-    <h2>{{restaurant}}</h2>
+-    <v-btn color="primary">Menu</v-btn>
++
++    <!--    Show an image at the top, image name should be restaurantName.jpeg-->
++    <v-img contain height="200px" :src="getImgUrl(restaurant.name)"></v-img>
++
++    <!--    Show the name of the restaurant-->
++    <h2>{{ restaurant.name }}</h2>
++
++    <!--    A dialog-->
++    <!--    Show the menu dialog when the button is clicked-->
++    <v-dialog :model="dialog">
++      <!--      It first contains the activator for the dialog-->
++      <template v-slot:activator="{ on, attrs }">
++        <!--        Include a button-->
++        <v-btn color="primary" class="btn"
++               v-bind="attrs" v-on="on"
++        >Menu
++        </v-btn>
++      </template>
++
++      <!--      Then, it contains codes in the dialog-->
++      <Menu :restaurant="restaurant"></Menu>
++    </v-dialog>
++
+   </v-card>
+ </template>
+ 
+ <script>
++import Menu from "@/components/Menu";
++
+ export default {
+   name: "RestaurantCard",
++  components: {Menu},
+   // arguments passed in from parent component
+-  props:{
+-    restaurant: {required: true, type: String},
+-    imageName: {required: true, type: String}
++  props: {
++    // It takes in an restaurant object
++    // This restaurant object looks like {id: 1, name: Stevenson}
++    restaurant: {required: true, type: Object},
++  },
++
++  data() {
++    return {
++      dialog: false
++    }
+   },
++
++  created() {
++
++  },
++
+   // methods to be used in this component
+-  methods:{
+-    getImgUrl(img){
+-      return require('../assets/' + img)
++  methods: {
++    // Uses the name of the restaurant to get its image path
++    getImgUrl(name) {
++      return require('../assets/' + name + '.jpeg')
++    },
++
++    // open the menu dialog
++    openDialog() {
++      this.dialog = true
+     }
+   }
+ }
+ </script>
+ 
+ <style scoped>
+-.restaurant-card{
++.restaurant-card {
+   height: 500px;
+   width: 300px;
+ }
++
++.btn {
++  margin-top: 30px;
++}
+ </style>
+\ No newline at end of file
+Index: src/components/Restaurants.vue
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><template>\n  <div>\n    <h1>Restaurants</h1>\n<!--    use container to create a grid-like layout-->\n    <v-container>\n      <v-row>\n        <v-col>\n<!--          pass properties (arguments) to children component-->\n          <RestaurantCard restaurant=\"Stevenson\" imageName=\"stevenson_logo.jpeg\"></RestaurantCard>\n        </v-col>\n        <v-col>\n          <RestaurantCard restaurant=\"Lord Saunders\" imageName=\"ls_logo.jpeg\"></RestaurantCard>\n        </v-col>\n        <v-col>\n          <RestaurantCard restaurant=\"Umami\" imageName=\"umami.jpeg\"></RestaurantCard>\n        </v-col>\n      </v-row>\n    </v-container>\n  </div>\n\n</template>\n\n<script>\n// import children component\nimport RestaurantCard from \"@/components/RestaurantCard\";\nimport axios from \"axios\";\nexport default {\n  name: \"Restaurants\",\n  // components imported\n  components: {RestaurantCard},\n\n  // data used in this component\n  data(){\n    // need to return the variables if you want to use it in the template\n    return{\n      restaurants: []\n    }\n  },\n\n  // codes that will run when the component is created (at the very beginning of its life cycle)\n  created(){\n\n  },\n\n  // codes that will run when the component is mounted (after created)\n  mounted() {\n    this.getRestaurants();\n  },\n\n  // define methods\n  methods:{\n    // get the list of restaurant entities\n    // async function\n    async getRestaurants() {\n      // await: wait until this step is complete, then move on to the second step\n      // axios: send an http request to the backend\n      await axios\n          // use get method (since we don't need to provide any parameter)\n          // url must correspond to the mapping of controller\n          .get('/restaurants/get')\n          // function after getting the response\n          .then(response => {\n            this.restaurants = response.data  // store the data\n          })\n      // if there is a second step, it will happen after the await is finished\n      // console.log(this.restaurants)\n    }\n  }\n\n}\n</script>\n\n<style scoped>\n\n</style>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Restaurants.vue b/src/components/Restaurants.vue
+--- a/src/components/Restaurants.vue	(revision 6a4436007997849d29c34310088a73bf1d1d6ed5)
++++ b/src/components/Restaurants.vue	(date 1642044498155)
+@@ -4,17 +4,12 @@
+ <!--    use container to create a grid-like layout-->
+     <v-container>
+       <v-row>
+-        <v-col>
+-<!--          pass properties (arguments) to children component-->
+-          <RestaurantCard restaurant="Stevenson" imageName="stevenson_logo.jpeg"></RestaurantCard>
+-        </v-col>
+-        <v-col>
+-          <RestaurantCard restaurant="Lord Saunders" imageName="ls_logo.jpeg"></RestaurantCard>
+-        </v-col>
+-        <v-col>
+-          <RestaurantCard restaurant="Umami" imageName="umami.jpeg"></RestaurantCard>
++        <v-col v-for="item in this.restaurants" :key="item.id">
++          <!--          pass properties (arguments) to children component-->
++          <RestaurantCard :restaurant="item"></RestaurantCard>
+         </v-col>
+       </v-row>
++
+     </v-container>
+   </div>
+ 
+@@ -39,17 +34,17 @@
+ 
+   // codes that will run when the component is created (at the very beginning of its life cycle)
+   created(){
+-
++    this.getRestaurants();
+   },
+ 
+   // codes that will run when the component is mounted (after created)
+   mounted() {
+-    this.getRestaurants();
++
+   },
+ 
+   // define methods
+   methods:{
+-    // get the list of restaurant entities
++    // get the list of restaurant entities, it will give a list of restaurants with their id and name
+     // async function
+     async getRestaurants() {
+       // await: wait until this step is complete, then move on to the second step
+@@ -63,7 +58,7 @@
+             this.restaurants = response.data  // store the data
+           })
+       // if there is a second step, it will happen after the await is finished
+-      // console.log(this.restaurants)
++      console.log(this.restaurants)
+     }
+   }
+ 
+Index: ../backend/src/main/java/com/cs311/backend/entity/Restaurant.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/* The entity class for restaurant */\npackage com.cs311.backend.entity;\n\nimport lombok.Data;\n\nimport javax.persistence.*;\nimport java.util.List;\n\n@Data // it tells spring to automatically generate getter and setter functions for every field\n@Entity // this sets the class as an entity\n// indicates that this entity corresponds to a table in the database\n// each instance of the class corresponds to a row in the table\n// @name: name of the table\n@Table(name = \"restaurant\")\npublic class Restaurant {\n    @Id // must specify a unique field for the class\n    @GeneratedValue // can automatically generate this field when creating a new instance\n    private Integer id;\n\n    // represent other columns in the table, must be the same as column names\n    private String name;\n\n    // specify the relationship to another entity\n    @OneToMany(fetch = FetchType.LAZY, targetEntity = Bar.class, mappedBy = \"restaurant\")\n    private List<Bar> bars;\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../backend/src/main/java/com/cs311/backend/entity/Restaurant.java b/../backend/src/main/java/com/cs311/backend/entity/Restaurant.java
+--- a/../backend/src/main/java/com/cs311/backend/entity/Restaurant.java	(revision 6a4436007997849d29c34310088a73bf1d1d6ed5)
++++ b/../backend/src/main/java/com/cs311/backend/entity/Restaurant.java	(date 1642049528105)
+@@ -1,9 +1,11 @@
+ /* The entity class for restaurant */
+ package com.cs311.backend.entity;
+ 
++import com.fasterxml.jackson.annotation.JsonManagedReference;
+ import lombok.Data;
+ 
+ import javax.persistence.*;
++import java.util.ArrayList;
+ import java.util.List;
+ 
+ @Data // it tells spring to automatically generate getter and setter functions for every field
+@@ -22,7 +24,17 @@
+ 
+     // specify the relationship to another entity
+     @OneToMany(fetch = FetchType.LAZY, targetEntity = Bar.class, mappedBy = "restaurant")
+-    private List<Bar> bars;
++    @JsonManagedReference // forward part of reference, get serialized
++    private List<Bar> bars = new ArrayList<>();
++
++    public void addBar(Bar bar){
++        bars.add(bar);
++    }
++
++    public void removeBar(Bar bar){
++        bars.remove(bar);
++        bar.setRestaurant(null);
++    }
+ 
+ 
+ }
+Index: ../backend/src/main/java/com/cs311/backend/service/BarService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs311.backend.service;\n\nimport com.cs311.backend.entity.Dish;\nimport com.cs311.backend.repository.BarRepository;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.stereotype.Service;\n\nimport java.util.List;\n\n@Service\npublic class BarService {\n\n    private BarRepository barRepository;\n\n    public BarService(BarRepository barRepository){\n        this.barRepository = barRepository;\n    }\n\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../backend/src/main/java/com/cs311/backend/service/BarService.java b/../backend/src/main/java/com/cs311/backend/service/BarService.java
+--- a/../backend/src/main/java/com/cs311/backend/service/BarService.java	(revision 6a4436007997849d29c34310088a73bf1d1d6ed5)
++++ b/../backend/src/main/java/com/cs311/backend/service/BarService.java	(date 1642046381471)
+@@ -1,5 +1,6 @@
+ package com.cs311.backend.service;
+ 
++import com.cs311.backend.entity.Bar;
+ import com.cs311.backend.entity.Dish;
+ import com.cs311.backend.repository.BarRepository;
+ import org.springframework.beans.factory.annotation.Autowired;
+@@ -16,5 +17,9 @@
+         this.barRepository = barRepository;
+     }
+ 
++//    public List<Bar> getAllByRestaurantId(Bar bar){
++//        return barRepository.getAllByRestaurantId(bar.)
++//    }
++
+ 
+ }
+\ No newline at end of file
+Index: src/components/Menu.vue
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Menu.vue b/src/components/Menu.vue
+new file mode 100644
+--- /dev/null	(date 1642049751057)
++++ b/src/components/Menu.vue	(date 1642049751057)
+@@ -0,0 +1,58 @@
++<template>
++  <v-card>
++    <!--    Toolbar at the top-->
++    <v-toolbar>
++      <!--      Title-->
++      <v-toolbar-title>Menu of {{ restaurant.name }}</v-toolbar-title>
++      <!--      title-->
++    </v-toolbar>
++
++<!--    Tabs for selecting bars-->
++    <v-tabs vertical>
++      <v-tab v-for="item in restaurant.bars" :key="item.id">
++        {{item.name}}
++      </v-tab>
++    </v-tabs>
++  </v-card>
++</template>
++
++<script>
++import axios from "axios";
++
++export default {
++  name: "Menu",
++
++  props:{
++    restaurant: {required: true, type: Object}
++  },
++
++  data(){
++    return {
++      bars: []
++    }
++  },
++
++  created() {
++
++  },
++
++  methods:{
++    // get the list of bars of the current restaurant
++    async getBars(){
++      // define the parameters used in the POST method
++      // we are passing the current restaurant's id to the backend
++      // key must match the column name of the table ("resId" here)
++      const param = {resId: this.restaurant.id}
++      axios
++          .post('/bar/get', param)
++          .then(response=>{
++            this.bars = response.data
++          })
++    }
++  }
++}
++</script>
++
++<style scoped>
++
++</style>
+\ No newline at end of file
+Index: ../backend/src/main/java/com/cs311/backend/repository/BarRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs311.backend.repository;\n\nimport com.cs311.backend.entity.Bar;\nimport com.cs311.backend.entity.Dish;\nimport org.springframework.data.jpa.repository.JpaRepository;\nimport org.springframework.stereotype.Repository;\n\nimport java.util.List;\n@Repository\npublic interface BarRepository extends JpaRepository<Bar, Integer> {\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../backend/src/main/java/com/cs311/backend/repository/BarRepository.java b/../backend/src/main/java/com/cs311/backend/repository/BarRepository.java
+--- a/../backend/src/main/java/com/cs311/backend/repository/BarRepository.java	(revision 6a4436007997849d29c34310088a73bf1d1d6ed5)
++++ b/../backend/src/main/java/com/cs311/backend/repository/BarRepository.java	(date 1642046381469)
+@@ -9,5 +9,7 @@
+ @Repository
+ public interface BarRepository extends JpaRepository<Bar, Integer> {
+ 
+-
++    // get all the bars of a restaurant
++    // @resId: id of the restaurant
++//    List<Bar> getAllByRestaurantId(Integer resId);
+ }
+Index: dist/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html><html lang=\"\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link rel=\"icon\" href=\"/favicon.ico\"><link href=\"https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900\" rel=\"stylesheet\"><link href=\"https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css\" rel=\"stylesheet\"><title>frontend</title><link href=\"/css/app.50e98ddc.css\" rel=\"preload\" as=\"style\"><link href=\"/css/chunk-vendors.76fe517c.css\" rel=\"preload\" as=\"style\"><link href=\"/js/app.c0ba8f8f.js\" rel=\"preload\" as=\"script\"><link href=\"/js/chunk-vendors.6a8fc8bb.js\" rel=\"preload\" as=\"script\"><link href=\"/css/chunk-vendors.76fe517c.css\" rel=\"stylesheet\"><link href=\"/css/app.50e98ddc.css\" rel=\"stylesheet\"></head><body><noscript><strong>We're sorry but frontend doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=\"app\"></div><script src=\"/js/chunk-vendors.6a8fc8bb.js\"></script><script src=\"/js/app.c0ba8f8f.js\"></script></body></html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dist/index.html b/dist/index.html
+--- a/dist/index.html	(revision 6a4436007997849d29c34310088a73bf1d1d6ed5)
++++ b/dist/index.html	(date 1642025590047)
+@@ -1,1 +1,1 @@
+-<!DOCTYPE html><html lang=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.ico"><link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet"><title>frontend</title><link href="/css/app.50e98ddc.css" rel="preload" as="style"><link href="/css/chunk-vendors.76fe517c.css" rel="preload" as="style"><link href="/js/app.c0ba8f8f.js" rel="preload" as="script"><link href="/js/chunk-vendors.6a8fc8bb.js" rel="preload" as="script"><link href="/css/chunk-vendors.76fe517c.css" rel="stylesheet"><link href="/css/app.50e98ddc.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but frontend doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script src="/js/chunk-vendors.6a8fc8bb.js"></script><script src="/js/app.c0ba8f8f.js"></script></body></html>
+\ No newline at end of file
++<!DOCTYPE html><html lang=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.ico"><link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet"><title>frontend</title><link href="/css/app.50e98ddc.css" rel="preload" as="style"><link href="/css/chunk-vendors.76fe517c.css" rel="preload" as="style"><link href="/js/app.b52df709.js" rel="preload" as="script"><link href="/js/chunk-vendors.ac428a20.js" rel="preload" as="script"><link href="/css/chunk-vendors.76fe517c.css" rel="stylesheet"><link href="/css/app.50e98ddc.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but frontend doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script src="/js/chunk-vendors.ac428a20.js"></script><script src="/js/app.b52df709.js"></script></body></html>
+\ No newline at end of file
+Index: ../backend/src/main/java/com/cs311/backend/entity/Bar.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs311.backend.entity;\n\nimport lombok.Data;\n\nimport javax.persistence.*;\nimport java.util.List;\n\n@Data\n@Entity\n@Table(name=\"bar\")\npublic class Bar {\n    @Id\n    @GeneratedValue\n    private Integer id;\n\n    private String name;\n\n    @ManyToOne(targetEntity = Restaurant.class, fetch = FetchType.LAZY)\n    @JoinColumn\n    private Restaurant restaurant;\n\n    @OneToMany(targetEntity = Dish.class, fetch = FetchType.LAZY, mappedBy = \"bar\")\n    private List<Dish> dishes;\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../backend/src/main/java/com/cs311/backend/entity/Bar.java b/../backend/src/main/java/com/cs311/backend/entity/Bar.java
+--- a/../backend/src/main/java/com/cs311/backend/entity/Bar.java	(revision 6a4436007997849d29c34310088a73bf1d1d6ed5)
++++ b/../backend/src/main/java/com/cs311/backend/entity/Bar.java	(date 1642049543500)
+@@ -1,5 +1,6 @@
+ package com.cs311.backend.entity;
+ 
++import com.fasterxml.jackson.annotation.JsonBackReference;
+ import lombok.Data;
+ 
+ import javax.persistence.*;
+@@ -16,7 +17,8 @@
+     private String name;
+ 
+     @ManyToOne(targetEntity = Restaurant.class, fetch = FetchType.LAZY)
+-    @JoinColumn
++    @JoinColumn(name="restaurant_id")
++    @JsonBackReference // back part of reference, not serialized
+     private Restaurant restaurant;
+ 
+     @OneToMany(targetEntity = Dish.class, fetch = FetchType.LAZY, mappedBy = "bar")
+Index: ../backend/src/main/java/com/cs311/backend/repository/RestaurantRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/* Repository class for restaurant\n* The repository class allows communication with the database */\npackage com.cs311.backend.repository;\n\nimport com.cs311.backend.entity.Restaurant;\nimport org.springframework.data.jpa.repository.JpaRepository;\nimport org.springframework.stereotype.Repository;\n\nimport java.util.List;\n\n@Repository // set this interface as a repository\npublic interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {\n\n    // JpaRepository has some built-in methods\n    // declare other methods if needed\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../backend/src/main/java/com/cs311/backend/repository/RestaurantRepository.java b/../backend/src/main/java/com/cs311/backend/repository/RestaurantRepository.java
+--- a/../backend/src/main/java/com/cs311/backend/repository/RestaurantRepository.java	(revision 6a4436007997849d29c34310088a73bf1d1d6ed5)
++++ b/../backend/src/main/java/com/cs311/backend/repository/RestaurantRepository.java	(date 1642045353607)
+@@ -2,6 +2,7 @@
+ * The repository class allows communication with the database */
+ package com.cs311.backend.repository;
+ 
++import com.cs311.backend.entity.Bar;
+ import com.cs311.backend.entity.Restaurant;
+ import org.springframework.data.jpa.repository.JpaRepository;
+ import org.springframework.stereotype.Repository;
+@@ -14,4 +15,5 @@
+     // JpaRepository has some built-in methods
+     // declare other methods if needed
+ 
++
+ }
+Index: ../backend/src/main/java/com/cs311/backend/service/RestaurantService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/* Service class for restaurant\n* The service class are called by the controller, deals with the business logic, then passes to the repository interface*/\n\npackage com.cs311.backend.service;\n\nimport com.cs311.backend.entity.Restaurant;\nimport org.springframework.stereotype.Service;\nimport com.cs311.backend.repository.RestaurantRepository;\n\nimport java.util.List;\n\n@Service // set this class as a service class\npublic class RestaurantService {\n\n    // use its repository\n    private final RestaurantRepository restaurantRepository;\n\n    public RestaurantService(RestaurantRepository restaurantRepository){\n        this.restaurantRepository = restaurantRepository;\n    }\n\n    // methods that deal with the business logic, then pass to the repository\n    public List<Restaurant> getAll(){\n        return this.restaurantRepository.findAll();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../backend/src/main/java/com/cs311/backend/service/RestaurantService.java b/../backend/src/main/java/com/cs311/backend/service/RestaurantService.java
+--- a/../backend/src/main/java/com/cs311/backend/service/RestaurantService.java	(revision 6a4436007997849d29c34310088a73bf1d1d6ed5)
++++ b/../backend/src/main/java/com/cs311/backend/service/RestaurantService.java	(date 1642046044887)
+@@ -3,6 +3,7 @@
+ 
+ package com.cs311.backend.service;
+ 
++import com.cs311.backend.entity.Bar;
+ import com.cs311.backend.entity.Restaurant;
+ import org.springframework.stereotype.Service;
+ import com.cs311.backend.repository.RestaurantRepository;
+@@ -23,4 +24,8 @@
+     public List<Restaurant> getAll(){
+         return this.restaurantRepository.findAll();
+     }
++
++    public List<Bar> get(Restaurant restaurant){
++        return restaurant.getBars();
++    }
+ }

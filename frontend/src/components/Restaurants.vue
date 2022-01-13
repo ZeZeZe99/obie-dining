@@ -4,15 +4,11 @@
 <!--    use container to create a grid-like layout-->
     <v-container>
       <v-row>
-        <v-col>
+<!--        Create a restaurant card for each restaurant-->
+        <v-col v-for="item in restaurants" :key="item.id">
 <!--          pass properties (arguments) to children component-->
-          <RestaurantCard restaurant="Stevenson" imageName="stevenson_logo.jpeg"></RestaurantCard>
-        </v-col>
-        <v-col>
-          <RestaurantCard restaurant="Lord Saunders" imageName="ls_logo.jpeg"></RestaurantCard>
-        </v-col>
-        <v-col>
-          <RestaurantCard restaurant="Umami" imageName="umami.jpeg"></RestaurantCard>
+<!--          Need the : for variables passing-->
+          <RestaurantCard :restaurant="item"></RestaurantCard>
         </v-col>
       </v-row>
     </v-container>
@@ -63,7 +59,7 @@ export default {
             this.restaurants = response.data  // store the data
           })
       // if there is a second step, it will happen after the await is finished
-      // console.log(this.restaurants)
+      console.log(this.restaurants)
     }
   }
 
