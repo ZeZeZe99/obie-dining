@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Home from '@/components/Home'
 import HelloWorld from "@/components/HelloWorld"
 import Restaurants from "@/components/Restaurants";
+import FoodSearch from "@/components/FoodSearch";
 
 Vue.use(Router)
 
@@ -19,6 +20,12 @@ const routes = [
                 name: 'restaurants',
                 title: 'restaurants',
                 component: Restaurants
+            },
+            {
+                path: '/foodsearch',
+                name: 'foodsearch',
+                title: 'foodsearch',
+                component: FoodSearch
             },
             {
                 path: '/hello',

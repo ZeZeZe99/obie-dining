@@ -12,7 +12,7 @@
 <!--      tabs-->
       <v-tabs align-with-title class="tabs">
         <v-tab @click="navigate('restaurants')">Restaurants</v-tab>
-        <v-tab>Search Food</v-tab>
+        <v-tab @click="navigate('foodsearch')">Search Food</v-tab>
         <v-tab>About</v-tab>
         <v-tab>Contact Us</v-tab>
       </v-tabs>
