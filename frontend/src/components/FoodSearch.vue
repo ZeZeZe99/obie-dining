@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>To search, or not to search, that is the question,</h2>
+    <p>&nbsp;</p><p>&nbsp;</p>
     <v-card>
       <v-container fluid>
         <v-row
@@ -12,7 +13,7 @@
                 :items="items"
                 dense
                 filled
-                label="Filled"
+                label="For the dish!"
             ></v-autocomplete>
           </v-col>
         </v-row>
@@ -25,7 +26,6 @@ export default {
   name: "FoodSearch",
   data: () => ({
     items: ['foo', 'bar', 'fizz', 'buzz'],
-    values: ['foo', 'bar'],
     value: null,
   }),
 }
