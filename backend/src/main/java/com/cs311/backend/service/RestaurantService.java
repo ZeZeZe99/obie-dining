@@ -21,6 +21,7 @@ public class RestaurantService {
 
     // methods that deal with the business logic, then pass to the repository
     public List<Restaurant> getAll(){
+//        List<Restaurant> restaurantList = this.restaurantRepository.findAll();
         return this.restaurantRepository.findAll();
     }
 }

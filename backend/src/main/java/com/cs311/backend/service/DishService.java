@@ -19,11 +19,9 @@ public class DishService{
         return dishRepository.save(dish);
     }
 
-    public Dish getDishBy(Integer dishID){
-        return dishRepository.getDishById(dishID);
-    }
+//    public Dish getDishBy(Integer dishID){
+//        return dishRepository.getDishById(dishID);
+//    }
 
-    public List<Dish> getDishesByBarId(Integer barId){
-        return dishRepository.getDishesByBarId(barId);
-    }
+
 }

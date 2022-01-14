@@ -22,6 +22,8 @@ public class Restaurant {
     private String name;
 
     // specify the relationship to another entity
+    // we are creating a bidirectional relation between Restaurant and Bar
+    // so that when a restaurant is loaded, its bars will be loaded as well
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Bar.class, mappedBy = "restaurant")
     @JsonManagedReference // forward of the reference, to be serialized
     private List<Bar> bars;

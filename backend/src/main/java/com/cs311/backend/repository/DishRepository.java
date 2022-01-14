@@ -9,7 +9,5 @@ import java.util.List;
 @Repository
 public interface DishRepository extends JpaRepository<Dish, Integer> {
 
-    List<Dish> getDishesByBarId(Integer barId);
 
-    Dish getDishById(Integer dishId);
 }
