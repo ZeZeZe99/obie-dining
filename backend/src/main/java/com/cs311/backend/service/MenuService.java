@@ -27,10 +27,10 @@ public class MenuService {
     public List<Dish> findDishesByBarAndDateAndSlot(Menu menu){
         // the frontend passes in the local date, but java would treat it as UTC and convert it to locate datetime
         // we need to correct this back
-        Calendar calendar = Calendar.getInstance();
-        int millisecond = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET);
+        Calendar calendar = Calendar.getInstance(); // current time
+        int millisecond = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET); // timezone offset
         calendar.setTime(menu.getDate());
-        calendar.add(Calendar.MILLISECOND, -millisecond);
+        calendar.add(Calendar.MILLISECOND, -millisecond); // correct timezone offset
         Date date = calendar.getTime();
 
         List<Menu> menus = menuRepository.findAllByBarAndDateAndSlot(menu.getBar(), date, menu.getSlot());

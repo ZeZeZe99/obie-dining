@@ -43,7 +43,7 @@
 
       <!--Button to search for the menu-->
       <v-col cols="1">
-        <v-btn class="btn" color="primary">
+        <v-btn class="btn" color="primary" @click="search">
           Search
         </v-btn>
       </v-col>
@@ -104,23 +104,27 @@ export default {
   },
 
   created() {
+    // set default date and slot when created
     this.defaultDateAndSlot()
   },
 
   mounted() {
+    // set default bar when mounted
     this.currentBar = this.restaurant.bars[this.tab]
-    this.search()
+    // this.search()
   },
 
   // watcher for the attributes, call functions when attributes changed
   watch:{
-    // update current bar based on the selected tab
+    // when the selected tab changes, update the current bar and its menu
     tab: function (){
       this.currentBar = this.restaurant.bars[this.tab]
+      this.search()
     }
   },
 
   methods:{
+    // set the default date and slot based on current time
     defaultDateAndSlot(){
       // get current date time in ISO format
       this.date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
@@ -138,7 +142,6 @@ export default {
 
     // search for the menu information based on selected bar, date, and time slot
     async search(){
-
       const param = {bar: this.currentBar, date: this.date, slot: this.slot}
       console.log(param)
       await axios
