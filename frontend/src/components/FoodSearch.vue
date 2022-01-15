@@ -21,7 +21,6 @@
         </div>
       </v-radio-group>
     </v-container>
-    <p>&nbsp;</p>
     <div v-if="selectFoodSearch">
       <v-card>
         <v-container fluid>
@@ -41,6 +40,24 @@
         </v-container>
       </v-card>
     </div>
+    <p>&nbsp;</p>
+    <div v-if="selectFoodSearch===false">
+      <h3>Sort by ratings! Desc or Ascd?</h3>
+      <v-radio-group v-model="radioGroup2">
+        <div style="width:300px; margin:0 auto;">
+          <v-radio
+              label="Descending"
+              value="desc"
+          ></v-radio>
+        </div>
+        <div style="width:300px; margin:0 auto;">
+          <v-radio
+              label="Ascending"
+              value="ascd"
+          ></v-radio>
+        </div>
+      </v-radio-group>
+    </div>
   </div>
 </template>
 <script>
@@ -49,9 +66,13 @@ export default {
   data: () => ({
     items: ['foo', 'bar', 'fizz', 'buzz'],
     value: null,
-    selectFoodSearch: false,
+    selectFoodSearch: true,
     radioGroup: 1,
+    radioGroup2: 2,
   }),
+  created() {
+    this.toggleFoodSearchToTrue()
+  },
   methods: {
     toggleFoodSearchToTrue(){
         this.selectFoodSearch = true
