@@ -66,6 +66,14 @@
         <v-card>
           <v-card-title>{{item.name}}</v-card-title>
         </v-card>
+
+        <!--If there is no dish information available, show the empty card-->
+        <EmptyCard v-show="dishes.length===0"></EmptyCard>
+
+        <!--Display dish information-->
+        <Dish v-for="d in dishes" :key="d.id" :dish="d"></Dish>
+
+
       </v-tab-item>
     </v-tabs>
 
@@ -82,10 +90,12 @@
 
 <script>
 import axios from "axios";
+import EmptyCard from "@/components/EmptyCard";
+import Dish from "@/components/Dish";
 
 export default {
   name: "Menu",
-
+  components: {Dish, EmptyCard},
   props:{
     restaurant: {required: true, type: Object}
   },
@@ -99,7 +109,8 @@ export default {
       slotOptions: ['Breakfast', 'Lunch', 'Dinner'],
       tab: null,
       currentBar: null,
-      dishes: []
+      dishes: [],
+      // empty: false // whether the dish list is empty
     }
   },
 
@@ -150,6 +161,8 @@ export default {
             this.dishes = response.data
             console.log(this.dishes)
           })
+      // if there is no dish information available, display the EmptyCard
+      // this.empty = this.dishes.length === 0;
     }
   }
 }
