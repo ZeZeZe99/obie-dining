@@ -2,44 +2,58 @@
 
 <template>
   <v-card elevation="4" class="dish">
-    <v-row class="dish-row" align="center" justify="space-around">
 
-      <!--Dish image-->
-      <!--If the url doesn't work, use the default image-->
-      <v-col cols="2">
-        <v-img :src="getImageUrl(dish.name)" contain max-height="80px" max-width="200px"></v-img>
-      </v-col>
+    <!--Click the dish card to open a dialog for detailed dish information-->
+    <v-dialog v-model="dialog">
+      <!--Make the whole dish card a activator of dialog-->
+      <template v-slot:activator="{ on, attrs }">
+        <v-row class="dish-row" align="center" justify="space-around"
+               v-on="on" v-bind="attrs">
 
-      <!--Dish name-->
-      <v-col cols="2">
-        <b>{{dish.name}}</b>
-      </v-col>
+          <!--Dish image-->
+          <!--If the url doesn't work, use the default image-->
+          <v-col cols="2">
+            <v-img :src="getImageUrl(dish.name)" contain max-height="80px" max-width="200px"></v-img>
+          </v-col>
 
-      <!--Dish calories-->
-      <v-col cols="1">
-        <v-row justify="center"><b>Calories</b></v-row>
-        <v-row justify="center">{{dish.calories}}</v-row>
-      </v-col>
+          <!--Dish name-->
+          <v-col cols="2">
+            <b>{{dish.name}}</b>
+          </v-col>
 
-      <!--Dish price-->
-      <v-col cols="1">
-        <v-row justify="center"><b>Price</b></v-row>
-        <v-row justify="center">$ {{dish.price}}</v-row>
-      </v-col>
+          <!--Dish calories-->
+          <v-col cols="1">
+            <v-row justify="center"><b>Calories</b></v-row>
+            <v-row justify="center">{{dish.calories}}</v-row>
+          </v-col>
 
-      <!--Dish rating-->
-      <v-col cols="2">
-        <v-rating half-increments hover dense size="20" readonly :value="rate">
-        </v-rating>
-      </v-col>
+          <!--Dish price-->
+          <v-col cols="1">
+            <v-row justify="center"><b>Price</b></v-row>
+            <v-row justify="center">$ {{dish.price}}</v-row>
+          </v-col>
+
+          <!--Dish rating-->
+          <v-col cols="2">
+            <v-rating half-increments hover dense size="20" readonly :value="rating">
+            </v-rating>
+          </v-col>
 
 
 
-    </v-row>
+        </v-row>
+      </template>
+
+      <v-card>Dish Detail</v-card>
+
+    </v-dialog>
+
   </v-card>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Dish",
 
@@ -51,7 +65,8 @@ export default {
   data(){
     return{
       imageUrl: null,
-      rate: null
+      rating: null,
+      dialog: null
     }
   },
 
@@ -60,6 +75,10 @@ export default {
     // the image file must be in jpeg format and must have the same name as the dish
     // this.imageUrl = '../assets/dish/' + this.dish.name + '.jpeg'
     this.imageUrl = '@/assets/Umami.jpeg'
+  },
+
+  mounted() {
+    this.getAvgRating()
   },
 
   methods:{
@@ -71,7 +90,17 @@ export default {
       } catch {
         return require('@/assets/no image.jpeg')
       }
+    },
 
+    // get the average rating of the current dish
+    async getAvgRating(){
+      // post body should consist dish
+      const param = this.dish
+      await axios
+          .post('/rating/avg', param)
+          .then(response=>{
+            this.rating = response.data
+          })
     }
   }
 }

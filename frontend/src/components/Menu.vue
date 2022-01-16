@@ -77,14 +77,6 @@
       </v-tab-item>
     </v-tabs>
 
-    <!--<v-tabs-items v-model="tab">-->
-    <!--  <v-tab-item v-for="item in restaurant.bars" :key="item.id">-->
-    <!--    <v-card>-->
-    <!--      {{item.name}}-->
-    <!--    </v-card>-->
-    <!--  </v-tab-item>-->
-    <!--</v-tabs-items>-->
-
   </v-card>
 </template>
 
@@ -110,7 +102,6 @@ export default {
       tab: null,
       currentBar: null,
       dishes: [],
-      // empty: false // whether the dish list is empty
     }
   },
 
@@ -122,7 +113,6 @@ export default {
   mounted() {
     // set default bar when mounted
     this.currentBar = this.restaurant.bars[this.tab]
-    // this.search()
   },
 
   // watcher for the attributes, call functions when attributes changed
@@ -153,16 +143,13 @@ export default {
 
     // search for the menu information based on selected bar, date, and time slot
     async search(){
+      // post body should consist bar, date, and slot
       const param = {bar: this.currentBar, date: this.date, slot: this.slot}
-      console.log(param)
       await axios
           .post('/menu/findDishesByBarAndDateAndSlot', param)
           .then(response=>{
             this.dishes = response.data
-            console.log(this.dishes)
           })
-      // if there is no dish information available, display the EmptyCard
-      // this.empty = this.dishes.length === 0;
     }
   }
 }
