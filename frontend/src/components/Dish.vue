@@ -39,12 +39,11 @@
             </v-rating>
           </v-col>
 
-
-
         </v-row>
       </template>
 
-      <v-card>Dish Detail</v-card>
+      <!--<v-card>Dish Detail</v-card>-->
+      <DishDetail :dish="dish" :avg-rating="rating" class="dish-detail"></DishDetail>
 
     </v-dialog>
 
@@ -53,10 +52,11 @@
 
 <script>
 import axios from "axios";
+import DishDetail from "@/components/DishDetail";
 
 export default {
   name: "Dish",
-
+  components: {DishDetail},
   props:{
     // dish object
     dish: {required: true, type: Object}
@@ -64,17 +64,13 @@ export default {
 
   data(){
     return{
-      imageUrl: null,
       rating: null,
       dialog: null
     }
   },
 
   created() {
-    // set the default url of the dish image
-    // the image file must be in jpeg format and must have the same name as the dish
-    // this.imageUrl = '../assets/dish/' + this.dish.name + '.jpeg'
-    this.imageUrl = '@/assets/Umami.jpeg'
+
   },
 
   mounted() {
@@ -115,5 +111,9 @@ export default {
   margin: 0;
   height: 100px;
 }
-
+.dish-detail{
+  margin-left: 10%;
+  max-width: 80%;
+  min-height: 500px;
+}
 </style>

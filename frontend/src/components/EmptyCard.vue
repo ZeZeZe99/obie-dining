@@ -7,7 +7,7 @@
     </h2>
     <h3>Please come back later!</h3>
 
-    <v-row>
+    <v-row justify="center">
       <v-col>
         <v-img contain :src="require('../assets/squirrel.png')" max-width="200px"></v-img>
       </v-col>
