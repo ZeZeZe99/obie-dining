@@ -25,13 +25,18 @@
                     </template>
 
                     <v-list>
-                      <v-list-item
-                          v-for="(item, index) in items"
-                          :key="index"
-                          link
-                      >
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
-                      </v-list-item>
+                      <v-list-item-group
+                          v-model="sortby"
+                          mandatory>
+                        <v-list-item
+                            v-for="(item, index) in sortItems"
+                            :key="index"
+                            :value="item.title"
+                            link
+                        >
+                          <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        </v-list-item>
+                      </v-list-item-group>
                     </v-list>
                   </v-menu>
                   <v-btn
@@ -44,7 +49,7 @@
                   </v-btn>
         </v-toolbar>
       </v-card>
-
+      {{sortby}}
     </v-container>
   </div>
 </template>
@@ -52,11 +57,12 @@
 export default {
   name: "FoodSearch",
   data: () => ({
-    items: [
+    sortItems: [
       { title: 'Rating' },
-      { title: 'Something' },
+      { title: 'Popularity' },
     ],
     searchquery: null,
+    sortby: 'Rating',
     loader: null,
     loading: false,
 
