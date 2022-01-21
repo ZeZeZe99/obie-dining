@@ -10,4 +10,6 @@ module.exports = {
         // the spring server is on port 8081
         proxy: 'http://localhost:8081'
     }
+
 }
+
