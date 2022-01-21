@@ -48,8 +48,10 @@
                     Search!
                   </v-btn>
         </v-toolbar>
+          <v-card flat style="margin-top: 5px">
+          sorted by: {{sortby}}
+          </v-card>
       </v-card>
-      {{sortby}}
     </v-container>
   </div>
 </template>
