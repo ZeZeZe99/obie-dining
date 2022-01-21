@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>To search, or not to search, that is the question,</h2>
+    <h2>To search, or not to search, that is the question.</h2>
     <v-container>
       <v-card class="bar"
           flat
@@ -10,7 +10,7 @@
                       hide-details
                       prepend-icon="mdi-magnify"
                       single-line
-                      v-model="searchquery"
+                      v-model="searchQuery"
                   ></v-text-field>
 
                   <v-menu offset-y
@@ -26,7 +26,7 @@
 
                     <v-list>
                       <v-list-item-group
-                          v-model="sortby"
+                          v-model="sortBy"
                           mandatory>
                         <v-list-item
                             v-for="(item, index) in sortItems"
@@ -48,8 +48,8 @@
                     Search!
                   </v-btn>
         </v-toolbar>
-          <v-card flat style="margin-top: 5px">
-          sorted by: {{sortby}}
+          <v-card flat style="margin-top: 5px" :key="dummy">
+            sorted by: {{sortBy}}
           </v-card>
       </v-card>
     </v-container>
@@ -63,8 +63,8 @@ export default {
       { title: 'Rating' },
       { title: 'Popularity' },
     ],
-    searchquery: null,
-    sortby: 'Rating',
+    searchQuery: null,
+    sortBy: 'Rating',
     loader: null,
     loading: false,
 
