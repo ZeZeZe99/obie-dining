@@ -55,9 +55,16 @@
     </v-container>
   </div>
 </template>
+
 <script>
+import axios from "axios";
+import EmptyCard from "@/components/EmptyCard";
+import Dish from "@/components/Dish";
+
 export default {
   name: "FoodSearch",
+  // eslint-disable-next-line vue/no-unused-components
+  components: {Dish, EmptyCard},
   data: () => ({
     sortItems: [
       { title: 'Rating' },
@@ -67,7 +74,7 @@ export default {
     sortBy: 'Rating',
     loader: null,
     loading: false,
-
+    dishes: [],
   }),
 
   watch: {
@@ -85,7 +92,16 @@ export default {
 
   },
   methods: {
-
+    // search for the menu information based on selected bar, date, and time slot TODO
+    async search(){
+      // post body should consist bar, date, and slot
+      const param = {bar: this.currentBar, date: this.date, slot: this.slot}
+      await axios
+          .post('/menu/findDishesByBarAndDateAndSlot', param)
+          .then(response=>{
+            this.dishes = response.data
+          })
+    }
   }
 }
 </script>
