@@ -53,6 +53,10 @@
           </v-card>
       </v-card>
     </v-container>
+    <v-card flat>
+      <EmptyCard v-show="dishes.length===0"></EmptyCard>
+      <Dish v-for="d in dishes" :key="d.id" :dish="d"></Dish>
+    </v-card>
   </div>
 </template>
 
