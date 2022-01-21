@@ -13,7 +13,7 @@
                       v-model="searchquery"
                   ></v-text-field>
 
-                  <v-menu offset-x
+                  <v-menu offset-y
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
@@ -34,6 +34,14 @@
                       </v-list-item>
                     </v-list>
                   </v-menu>
+                  <v-btn
+                      class="ma-2"
+                      :loading="loading"
+                      :disabled="loading"
+                      color="secondary"
+                      @click="loader = 'loading'">
+                    Search!
+                  </v-btn>
         </v-toolbar>
       </v-card>
 
@@ -48,8 +56,22 @@ export default {
       { title: 'Rating' },
       { title: 'Something' },
     ],
-    searchquery: null
+    searchquery: null,
+    loader: null,
+    loading: false,
+
   }),
+
+  watch: {
+    loader () {
+      const l = this.loader
+      this[l] = !this[l]
+
+      setTimeout(() => (this[l] = false), 3000)
+
+      this.loader = null
+    },
+  },
 
   created() {
 
