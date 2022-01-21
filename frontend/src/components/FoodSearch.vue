@@ -44,7 +44,7 @@
                       :loading="loading"
                       :disabled="loading"
                       color="secondary"
-                      @click="loader = 'loading'">
+                      @click="loader = 'loading'; searchTheFood()">
                     Search!
                   </v-btn>
         </v-toolbar>
@@ -96,16 +96,19 @@ export default {
 
   },
   methods: {
-    // search for the menu information based on selected bar, date, and time slot TODO
-    async search(){
-      // post body should consist bar, date, and slot
-      const param = {bar: this.currentBar, date: this.date, slot: this.slot}
+    // search for the dishes like searchQuery, sorted by sortBy.
+    async searchTheFood(){
+      // post body should consist of bar, date, and slot
+      const param = {searchQuery: this.searchQuery, sortBy: this.sortBy}
       await axios
-          .post('/menu/findDishesByBarAndDateAndSlot', param)
+          .post('/FoodSearch/findDishesByBarAndDateAndSlot', param) //TODO
           .then(response=>{
             this.dishes = response.data
           })
-    }
+    },
+    // lalala(){
+    //   this.sortBy = 'lalala'
+    // }
   }
 }
 </script>
