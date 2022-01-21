@@ -1,89 +1,68 @@
 <template>
   <div>
     <h2>To search, or not to search, that is the question,</h2>
-    <p>&nbsp;</p>
-    <v-container
-        class="px-0"
-        fluid
-    >
-      <v-radio-group v-model="radioGroup">
-        <div @click="toggleFoodSearchToTrue">
-          <v-radio
-              label="Search"
-              value="searchFood"
-          ></v-radio>
-        </div>
-        <div @click="toggleFoodSearchToFalse">
-          <v-radio
-              label="Sort"
-              value="sortFood"
-          ></v-radio>
-        </div>
-      </v-radio-group>
-    </v-container>
-    <div v-if="selectFoodSearch">
-      <v-card>
-        <v-container fluid>
-          <v-row
-              align="center"
-          >
-            <v-col cols="12">
-              <v-autocomplete
-                  v-model="value"
-                  :items="items"
-                  dense
-                  filled
-                  label="For the dish!"
-              ></v-autocomplete>
-            </v-col>
-          </v-row>
-        </v-container>
+    <v-container>
+      <v-card class="bar"
+          flat
+      >
+        <v-toolbar>
+                  <v-text-field
+                      hide-details
+                      prepend-icon="mdi-magnify"
+                      single-line
+                      v-model="searchquery"
+                  ></v-text-field>
+
+                  <v-menu offset-x
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                          v-bind="attrs"
+                          v-on="on"
+                      >
+                        Sort By
+                      </v-btn>
+                    </template>
+
+                    <v-list>
+                      <v-list-item
+                          v-for="(item, index) in items"
+                          :key="index"
+                          link
+                      >
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+        </v-toolbar>
       </v-card>
-    </div>
-    <p>&nbsp;</p>
-    <div v-if="selectFoodSearch===false">
-      <h3>Sort by ratings! Desc or Ascd?</h3>
-      <v-radio-group v-model="radioGroup2">
-        <div style="width:300px; margin:0 auto;">
-          <v-radio
-              label="Descending"
-              value="desc"
-          ></v-radio>
-        </div>
-        <div style="width:300px; margin:0 auto;">
-          <v-radio
-              label="Ascending"
-              value="ascd"
-          ></v-radio>
-        </div>
-      </v-radio-group>
-    </div>
+
+    </v-container>
   </div>
 </template>
 <script>
 export default {
   name: "FoodSearch",
   data: () => ({
-    items: ['foo', 'bar', 'fizz', 'buzz'],
-    value: null,
-    selectFoodSearch: true,
-    radioGroup: 1,
-    radioGroup2: 2,
+    items: [
+      { title: 'Rating' },
+      { title: 'Something' },
+    ],
+    searchquery: null
   }),
+
   created() {
-    this.toggleFoodSearchToTrue()
+
   },
   methods: {
-    toggleFoodSearchToTrue(){
-        this.selectFoodSearch = true
-    },
-    toggleFoodSearchToFalse(){
-      this.selectFoodSearch = false
-    }
+
   }
 }
 </script>
 
 <style scoped>
-
+.bar{
+  width: 80%;
+  left: 10%;
+}
 </style>
