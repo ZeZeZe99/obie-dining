@@ -4,7 +4,7 @@
   <v-card elevation="4" class="dish">
 
     <!--Click the dish card to open a dialog for detailed dish information-->
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="dialog" max-width="80%">
       <!--Make the whole dish card a activator of dialog-->
       <template v-slot:activator="{ on, attrs }">
         <v-row class="dish-row" align="center" justify="space-around"
@@ -97,6 +97,9 @@ export default {
           .then(response=>{
             this.rating = response.data
           })
+      if (this.rating === ''){
+        this.rating = 0
+      }
     }
   }
 }
@@ -112,8 +115,9 @@ export default {
   height: 100px;
 }
 .dish-detail{
-  margin-left: 10%;
-  max-width: 80%;
+  /*margin-left: 10%;*/
+  /*max-width: 80%;*/
   min-height: 500px;
+  max-height: 100%;
 }
 </style>

@@ -26,6 +26,7 @@ public class Menu {
     private Bar bar;
 
     @Temporal(TemporalType.DATE)
+    @JsonFormat(timezone = "GMT-0")
     private Date date;
 
     private String slot;

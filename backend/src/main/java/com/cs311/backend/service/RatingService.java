@@ -1,6 +1,8 @@
 package com.cs311.backend.service;
 
 import com.cs311.backend.entity.Dish;
+import com.cs311.backend.entity.Rating;
+import com.cs311.backend.entity.Student;
 import com.cs311.backend.repository.RatingRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +22,9 @@ public class RatingService {
         return ratingRepository.avgRating(dish);
     }
 
+    // create a new rating
+    public Rating newRating(Rating rating){
+        return ratingRepository.save(rating);
+    }
 
 }
