@@ -53,7 +53,7 @@
           </v-card>
       </v-card>
     </v-container>
-    <v-card flat>
+    <v-card flat :key="dummy2">
       <EmptyCard v-show="dishes.length===0"></EmptyCard>
       <Dish v-for="d in dishes" :key="d.id" :dish="d"></Dish>
     </v-card>
@@ -101,14 +101,11 @@ export default {
       // post body should consist of bar, date, and slot
       const param = {searchQuery: this.searchQuery, sortBy: this.sortBy}
       await axios
-          .post('/FoodSearch/findDishesByBarAndDateAndSlot', param) //TODO
+          .post('/foodSearch/findDishesByBySortMethod', param)
           .then(response=>{
             this.dishes = response.data
           })
     },
-    // lalala(){
-    //   this.sortBy = 'lalala'
-    // }
   }
 }
 </script>
