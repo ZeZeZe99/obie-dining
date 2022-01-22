@@ -5,6 +5,8 @@ import Home from '@/components/Home'
 import HelloWorld from "@/components/HelloWorld"
 import Restaurants from "@/components/Restaurants";
 import FoodSearch from "@/components/FoodSearch";
+import Login from '@/components/Login';
+import Register from '@/components/Register';
 
 Vue.use(Router)
 
@@ -39,13 +41,22 @@ const routes = [
         path: '/',
         redirect: {name: 'home'}
     },
-    // {
-    //     path: '*',
-    //     redirect: {name: 'home'}
-    // }
+    {
+        path: '/login',
+        name: 'Login',
+        title: 'Login',
+        component: Login
+    },
+    {
+        path: '/register',
+        name: 'register',
+        title: 'register',
+        component: Register
+    }
 ];
 
 export default new Router({
     mode:"history",
     routes
 })
+

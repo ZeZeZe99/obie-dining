@@ -8,8 +8,11 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@mdi/js": "^6.5.95",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "kill-port": "^1.6.1",
+    "vee-validate": "^3.4.14",
     "vue": "^2.6.14",
     "vue-router": "^3.5.3",
     "vuetify": "^2.6.1"

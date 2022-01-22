@@ -26,16 +26,52 @@
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+          >
+            <v-icon>
+              {{ icons.mdiAccount }}
+            </v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+              v-for="(item, i) in items"
+              :key="i"
+              link
+          >
+<!--            <v-list-item-content>-->
+<!--              <v-list-item-title v-text="item.text"></v-list-item-title>-->
+<!--            </v-list-item-content>-->
+            <v-list-item-title @click="navigate(item.route)">{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
     </v-app-bar>
   </v-card>
 </template>
 
 <script>
+import {
+  mdiAccount
+} from '@mdi/js'
 
 export default {
+  data: () => ({
+    icons: {
+      mdiAccount
+    },
+    items: [
+      { title: 'Sign in', route : 'Login' },
+      { title: 'Register', route: 'register' },
+    ],
+  }),
   name: "Header",
 
   methods:{

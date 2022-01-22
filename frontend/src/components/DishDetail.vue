@@ -69,6 +69,11 @@
               Rating submitted!
             </v-alert>
           </v-overlay>
+          <v-btn
+              text
+              @click = "asklogin">
+            Submit rating
+          </v-btn>
         </v-card-actions>
       </v-card>
 
@@ -167,6 +172,16 @@ export default {
       } catch {
         return require('@/assets/no image.jpeg')
       }
+    },
+    asklogin() {
+      this.$confirm("You need to sign in")
+          .then((r) => {
+            console.log(r);
+            this.$router.replace({path: '/login'})
+          })
+          .catch(() => {
+            console.log("OK not selected.");
+          });
     },
 
     // method to load all comments
