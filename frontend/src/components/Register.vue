@@ -25,23 +25,23 @@
             required
         ></v-text-field>
       </validation-provider>
-      <validation-provider
-          v-slot="{ errors }"
-          name="PhoneNumber"
-          :rules="{
-          required: true,
-          digits: 10
-          //regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$'
-        }"
-      >
-        <v-text-field
-            v-model="loginForm.phoneNumber"
-            :counter="10"
-            :error-messages="errors"
-            label="Phone Number"
-            required
-        ></v-text-field>
-      </validation-provider>
+<!--      <validation-provider-->
+<!--          v-slot="{ errors }"-->
+<!--          name="PhoneNumber"-->
+<!--          :rules="{-->
+<!--          required: true,-->
+<!--          digits: 10-->
+<!--          //regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$'-->
+<!--        }"-->
+<!--      >-->
+<!--        <v-text-field-->
+<!--            v-model="loginForm.phoneNumber"-->
+<!--            :counter="10"-->
+<!--            :error-messages="errors"-->
+<!--            label="Phone Number"-->
+<!--            required-->
+<!--        ></v-text-field>-->
+<!--      </validation-provider>-->
       <validation-provider
           v-slot="{ errors }"
           name="email"
@@ -147,7 +147,6 @@ export default {
         tnumber: '',
         username: '',
         password: '',
-        phoneNumber: '',
         email: ''
       }
     }
@@ -158,7 +157,6 @@ export default {
       this.$refs.observer.validate()
     },
     clear () {
-      this.loginForm.phoneNumber = ''
       this.loginForm.email = ''
       this.loginForm.username = ''
       this.loginForm.password = ''
@@ -171,8 +169,8 @@ export default {
             username: this.loginForm.username,
             password: this.loginForm.password,
             name: this.loginForm.name,
-            phone: this.loginForm.phone,
-            email: this.loginForm.email
+            email: this.loginForm.email,
+            tnumber: this.loginForm.tnumber
           })
           .then(() => {
             this.$alert(
