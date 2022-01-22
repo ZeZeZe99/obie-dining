@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>To search, or not to search, that is the question,</h2>
+    <h2>To search, or not to search, that is the question.</h2>
     <v-container>
       <v-card class="bar"
           flat
@@ -10,7 +10,7 @@
                       hide-details
                       prepend-icon="mdi-magnify"
                       single-line
-                      v-model="searchquery"
+                      v-model="searchQuery"
                   ></v-text-field>
 
                   <v-menu offset-y
@@ -26,7 +26,7 @@
 
                     <v-list>
                       <v-list-item-group
-                          v-model="sortby"
+                          v-model="sortBy"
                           mandatory>
                         <v-list-item
                             v-for="(item, index) in sortItems"
@@ -44,30 +44,41 @@
                       :loading="loading"
                       :disabled="loading"
                       color="secondary"
-                      @click="loader = 'loading'">
+                      @click="loader = 'loading'; searchTheFood()">
                     Search!
                   </v-btn>
         </v-toolbar>
-          <v-card flat style="margin-top: 5px">
-          sorted by: {{sortby}}
+          <v-card flat style="margin-top: 5px" :key="dummy">
+            sorted by: {{sortBy}}
           </v-card>
       </v-card>
     </v-container>
+    <v-card flat>
+      <EmptyCard v-show="dishes.length===0"></EmptyCard>
+      <Dish v-for="d in dishes" :key="d.id" :dish="d"></Dish>
+    </v-card>
   </div>
 </template>
+
 <script>
+import axios from "axios";
+import EmptyCard from "@/components/EmptyCard";
+import Dish from "@/components/Dish";
+
 export default {
   name: "FoodSearch",
+  // eslint-disable-next-line vue/no-unused-components
+  components: {Dish, EmptyCard},
   data: () => ({
     sortItems: [
       { title: 'Rating' },
       { title: 'Popularity' },
     ],
-    searchquery: null,
-    sortby: 'Rating',
+    searchQuery: null,
+    sortBy: 'Rating',
     loader: null,
     loading: false,
-
+    dishes: [],
   }),
 
   watch: {
@@ -85,7 +96,19 @@ export default {
 
   },
   methods: {
-
+    // search for the dishes like searchQuery, sorted by sortBy.
+    async searchTheFood(){
+      // post body should consist of bar, date, and slot
+      const param = {searchQuery: this.searchQuery, sortBy: this.sortBy}
+      await axios
+          .post('/FoodSearch/findDishesByBarAndDateAndSlot', param) //TODO
+          .then(response=>{
+            this.dishes = response.data
+          })
+    },
+    // lalala(){
+    //   this.sortBy = 'lalala'
+    // }
   }
 }
 </script>
