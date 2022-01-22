@@ -32,6 +32,7 @@ public class MenuService {
         calendar.setTime(menu.getDate());
         calendar.add(Calendar.MILLISECOND, -millisecond); // correct timezone offset
         Date date = calendar.getTime();
+//        Date date = menu.getDate();
 
         List<Menu> menus = menuRepository.findAllByBarAndDateAndSlot(menu.getBar(), date, menu.getSlot());
         List<Dish> dishes = new ArrayList<>();

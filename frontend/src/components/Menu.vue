@@ -1,6 +1,8 @@
 <!--Component for menu dialog-->
 <template>
-  <v-card min-height="600px">
+  <v-card
+      min-height="600px"
+  >
 
     <!--Toolbar at the top-->
     <v-toolbar class="toolbar" height="100px">
@@ -73,10 +75,8 @@
         <!--Display dish information-->
         <Dish v-for="d in dishes" :key="d.id" :dish="d"></Dish>
 
-
       </v-tab-item>
     </v-tabs>
-
   </v-card>
 </template>
 
@@ -150,6 +150,9 @@ export default {
           .then(response=>{
             this.dishes = response.data
           })
+    },
+    navigate(page){
+      this.$router.push(page)
     }
   }
 }
