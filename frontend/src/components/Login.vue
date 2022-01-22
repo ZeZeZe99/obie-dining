@@ -1,51 +1,9 @@
-<!--<template>-->
-<!--  <div>-->
-<!--    Username: <input type = "text" v-model="loginForm.username" placeholder="Please input your username"/>-->
-<!--    <br><br>-->
-<!--    Password: <input type="password" v-model="loginForm.password" placeholder="Please input your password"/>-->
-<!--    <br><br>-->
-<!--    <v-btn-->
-<!--        type="primary"-->
-<!--        style="width: 40%;-->
-<!--        background: #505458;-->
-<!--        border: none"-->
-<!--        @click="login">-->
-<!--      Sign in-->
-<!--    </v-btn>-->
-<!--&lt;!&ndash;    <button @click="login">login</button>&ndash;&gt;-->
-<!--  </div>-->
-
-<!--</template>-->
-
 <template>
-  <body id="paper">
-  <v-form
-      :model="loginForm"
-      class="login-container"
-      labv-position="left"
-      labv-width="0px"
-      >
-    <h3 class="login_title">
-      System Sign in
-    </h3>
-    <v-text-field
-        v-model= "loginForm.username"
-        :rules="rules"
-        label="Username"
-        required
-    ></v-text-field>
-    <v-text-field
-        v-model= "loginForm.password"
-        :rules="rules"
-        label="Password"
-        required
-    ></v-text-field>
-<!--    <v-checkbox-->
-<!--        class="login_remember"-->
-<!--        v-model="checkbox"-->
-<!--        label="Remember User"-->
-<!--        type="checkbox">-->
-<!--    </v-checkbox>-->
+  <div>
+    Username: <input type = "text" v-model="loginForm.username" placeholder="Please input your username"/>
+    <br><br>
+    Password: <input type="password" v-model="loginForm.password" placeholder="Please input your password"/>
+    <br><br>
     <v-btn
         type="primary"
         style="width: 40%;
@@ -54,23 +12,70 @@
         @click="login">
       Sign in
     </v-btn>
-    <router-link to="register">
-      <v-btn
-          type="primary"
-          style="width: 40%;
-            background: #505458;
-            border: none">
-        Register
-      </v-btn>
-    </router-link>
-  </v-form>
-  </body>
+<!--    <button @click="login">login</button>-->
+  </div>
+
 </template>
 
+<!--<template>-->
+<!--  <body id="paper">-->
+<!--  <v-form-->
+<!--      :model="loginForm"-->
+<!--      class="login-container"-->
+<!--      labv-position="left"-->
+<!--      labv-width="0px"-->
+<!--      >-->
+<!--    <h3 class="login_title">-->
+<!--      System Sign in-->
+<!--    </h3>-->
+<!--    <v-text-field-->
+<!--        v-model= "loginForm.username"-->
+<!--        :rules="rules"-->
+<!--        label="Username"-->
+<!--        required-->
+<!--    ></v-text-field>-->
+<!--    <v-text-field-->
+<!--        v-model= "loginForm.password"-->
+<!--        :rules="rules"-->
+<!--        label="Password"-->
+<!--        type = "password"-->
+<!--        required-->
+<!--    ></v-text-field>-->
+<!--&lt;!&ndash;    <v-checkbox&ndash;&gt;-->
+<!--&lt;!&ndash;        class="login_remember"&ndash;&gt;-->
+<!--&lt;!&ndash;        v-model="checkbox"&ndash;&gt;-->
+<!--&lt;!&ndash;        label="Remember User"&ndash;&gt;-->
+<!--&lt;!&ndash;        type="checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;    </v-checkbox>&ndash;&gt;-->
+<!--    <v-btn-->
+<!--        type="primary"-->
+<!--        style="width: 40%;-->
+<!--        background: #505458;-->
+<!--        border: none"-->
+<!--        @click="login">-->
+<!--      Sign in-->
+<!--    </v-btn>-->
+<!--    <router-link to="register">-->
+<!--      <v-btn-->
+<!--          type="primary"-->
+<!--          style="width: 40%;-->
+<!--          background: #505458;-->
+<!--          border: none">-->
+<!--        Register-->
+<!--      </v-btn>-->
+<!--    </router-link>-->
+<!--  </v-form>-->
+<!--  </body>-->
+<!--</template>-->
+
 <script>
+import Vue from "vue"
 import axios from "axios";
 import {required} from 'vee-validate/dist/rules'
 import {extend} from 'vee-validate'
+import VueSimpleAlert from "vue-simple-alert"
+
+Vue.use(VueSimpleAlert)
 
 extend('required', {
   ...required,
@@ -85,12 +90,12 @@ export default {
         value => !!value || 'Required.',
         value => (value && value.length >= 3) || 'Min 3 characters',
       ],
-      checkbox: true,
+      // checkbox: true,
       loginForm: {
         username: '',
         password: ''
-      },
-      loading: false
+      }
+      // loading: false
     }
   },
   methods: {
@@ -103,8 +108,9 @@ export default {
           .then(() => {
             this.$router.replace({path: '/home'})
           })
-          .catch(error => {
-            console.log(error.response.data)
+          .catch(() => {
+            // window.alert("Your Username or password is wrong");
+            this.$alert("Your Username or password is wrong")
           })
     }
   }
