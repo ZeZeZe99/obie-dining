@@ -4,51 +4,30 @@
 <!--    <br><br>-->
 <!--    Password: <input type="password" v-model="loginForm.password" placeholder="Please input your password"/>-->
 <!--    <br><br>-->
-<!--    <button v-on:click="login">login</button>-->
+<!--    <v-btn-->
+<!--        type="primary"-->
+<!--        style="width: 40%;-->
+<!--        background: #505458;-->
+<!--        border: none"-->
+<!--        @click="login">-->
+<!--      Sign in-->
+<!--    </v-btn>-->
+<!--&lt;!&ndash;    <button @click="login">login</button>&ndash;&gt;-->
 <!--  </div>-->
 
 <!--</template>-->
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "Login",-->
-<!--  data () {-->
-<!--    return {-->
-<!--      loginForm: {-->
-<!--        username: '',-->
-<!--        password: ''-->
-<!--      },-->
-<!--      responseResult: []-->
-<!--    }-->
-<!--  },-->
-<!--  methods: {-->
-<!--    login() {-->
-<!--      this.$axios-->
-<!--      .post('/login',{-->
-<!--        username: this.loginForm.username,-->
-<!--        password: this.loginForm.password-->
-<!--      })-->
-<!--      .then(successResponse => {-->
-<!--        if(successResponse.data.code === 200) {-->
-<!--          this.$route.replace({path: '/home'})-->
-<!--        }-->
-<!--      })-->
-<!--      // .catch(failResponse => {-->
-<!--      // })-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
-
-<!--<style scoped>-->
-
-<!--</style>-->
-
 <template>
   <body id="paper">
-  <v-form :model="loginForm" :rules="ruless" class="login-container" labv-position="left"
-           labv-width="0px" v-loading="loading">
-    <h3 class="login_title">System Sign in</h3>
+  <v-form
+      :model="loginForm"
+      class="login-container"
+      labv-position="left"
+      labv-width="0px"
+      >
+    <h3 class="login_title">
+      System Sign in
+    </h3>
     <v-text-field
         v-model= "loginForm.username"
         :rules="rules"
@@ -61,33 +40,51 @@
         label="Password"
         required
     ></v-text-field>
-    <v-checkbox class="login_remember" v-model="checkbox" label="Remember User"
-                type="checkbox"></v-checkbox>
-      <v-btn type="primary" style="width: 40%;background: #505458;border: none" v-on:click="login">Sign in</v-btn>
-      <router-link to="register"><v-btn type="primary" style="width: 40%;background: #505458;border: none">Register</v-btn></router-link>
+<!--    <v-checkbox-->
+<!--        class="login_remember"-->
+<!--        v-model="checkbox"-->
+<!--        label="Remember User"-->
+<!--        type="checkbox">-->
+<!--    </v-checkbox>-->
+    <v-btn
+        type="primary"
+        style="width: 40%;
+        background: #505458;
+        border: none"
+        @click="login">
+      Sign in
+    </v-btn>
+    <router-link to="register">
+      <v-btn
+          type="primary"
+          style="width: 40%;
+            background: #505458;
+            border: none">
+        Register
+      </v-btn>
+    </router-link>
   </v-form>
   </body>
 </template>
+
 <script>
+import axios from "axios";
+import {required} from 'vee-validate/dist/rules'
+import {extend} from 'vee-validate'
 
- import {required} from 'vee-validate/dist/rules'
- import {extend} from 'vee-validate'
+extend('required', {
+  ...required,
+  message: '{_field_} can not be empty',
+})
 
- extend('required', {
-   ...required,
-   message: '{_field_} can not be empty',
- })
-export default{
+export default {
+  name: "Login",
   data () {
     return {
       rules: [
         value => !!value || 'Required.',
         value => (value && value.length >= 3) || 'Min 3 characters',
       ],
-      ruless: {
-        username: [{required: true, message: '用户名不能为空', trigger: 'blur'}],
-        password: [{required: true, message: '密码不能为空', trigger: 'blur'}]
-      },
       checkbox: true,
       loginForm: {
         username: '',
@@ -97,30 +94,54 @@ export default{
     }
   },
   methods: {
-    login () {
-      var _this = this
-      this.$axios
+    async login() {
+      await axios
           .post('/login', {
             username: this.loginForm.username,
             password: this.loginForm.password
           })
-          .then(resp => {
-            if (resp.data.code === 200) {
-              var data = resp.data.result
-              _this.$store.commit('login', data)
-              var path = _this.$route.query.redirect
-              _this.$router.replace({path: path === '/' || path === undefined ? '/admin/dashboard' : path})
-            } else {
-              this.$alert(resp.data.message, '提示', {
-                confirmbuttonText: '确定'
-              })
-            }
+          .then(() => {
+            this.$router.replace({path: '/home'})
           })
-          // .catch(failResponse => {})
+          .catch(error => {
+            console.log(error.response.data)
+          })
     }
   }
 }
 </script>
+
+
+<!--<script>-->
+
+
+<!--export default{-->
+
+<!--  methods: {-->
+<!--    login () {-->
+<!--      var _this = this-->
+<!--      this.$axios-->
+<!--          .post('/login', {-->
+<!--            username: this.loginForm.username,-->
+<!--            password: this.loginForm.password-->
+<!--          })-->
+<!--          .then(resp => {-->
+<!--            if (resp.data.code === 200) {-->
+<!--              var data = resp.data.result-->
+<!--              _this.$store.commit('login', data)-->
+<!--              var path = _this.$route.query.redirect-->
+<!--              _this.$router.replace({path: path === '/' || path === undefined ? '/admin/dashboard' : path})-->
+<!--            } else {-->
+<!--              this.$alert(resp.data.message, '提示', {-->
+<!--                confirmbuttonText: '确定'-->
+<!--              })-->
+<!--            }-->
+<!--          })-->
+<!--          // .catch(failResponse => {})-->
+<!--    }-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
 
 <style>
 #paper {

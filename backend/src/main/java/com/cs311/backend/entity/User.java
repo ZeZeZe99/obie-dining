@@ -4,7 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@Data
+@Entity
 public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
