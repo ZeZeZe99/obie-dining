@@ -1,9 +1,32 @@
 <template>
-  <div>
-    Username: <input type = "text" v-model="loginForm.username" placeholder="Please input your username"/>
-    <br><br>
-    Password: <input type="password" v-model="loginForm.password" placeholder="Please input your password"/>
-    <br><br>
+  <body id="paper">
+  <div
+      class="login-container"
+      labv-position="left"
+      labv-width="0px"
+      >
+    <h3 class="login_title">
+      System Sign in
+    </h3>
+    <v-text-field
+        v-model= "loginForm.username"
+        :rules="rules"
+        label="Username"
+        required
+    ></v-text-field>
+    <v-text-field
+        v-model= "loginForm.password"
+        :rules="rules"
+        label="Password"
+        type = "password"
+        required
+    ></v-text-field>
+    <v-checkbox
+        class="login_remember"
+        v-model="checkbox"
+        label="Remember User"
+        type="checkbox">
+    </v-checkbox>
     <v-btn
         type="primary"
         style="width: 40%;
@@ -12,61 +35,18 @@
         @click="login">
       Sign in
     </v-btn>
-<!--    <button @click="login">login</button>-->
+    <router-link to="register">
+      <v-btn
+          type="primary"
+          style="width: 40%;
+          background: #505458;
+          border: none">
+        Register
+      </v-btn>
+    </router-link>
   </div>
-
+  </body>
 </template>
-
-<!--<template>-->
-<!--  <body id="paper">-->
-<!--  <v-form-->
-<!--      :model="loginForm"-->
-<!--      class="login-container"-->
-<!--      labv-position="left"-->
-<!--      labv-width="0px"-->
-<!--      >-->
-<!--    <h3 class="login_title">-->
-<!--      System Sign in-->
-<!--    </h3>-->
-<!--    <v-text-field-->
-<!--        v-model= "loginForm.username"-->
-<!--        :rules="rules"-->
-<!--        label="Username"-->
-<!--        required-->
-<!--    ></v-text-field>-->
-<!--    <v-text-field-->
-<!--        v-model= "loginForm.password"-->
-<!--        :rules="rules"-->
-<!--        label="Password"-->
-<!--        type = "password"-->
-<!--        required-->
-<!--    ></v-text-field>-->
-<!--&lt;!&ndash;    <v-checkbox&ndash;&gt;-->
-<!--&lt;!&ndash;        class="login_remember"&ndash;&gt;-->
-<!--&lt;!&ndash;        v-model="checkbox"&ndash;&gt;-->
-<!--&lt;!&ndash;        label="Remember User"&ndash;&gt;-->
-<!--&lt;!&ndash;        type="checkbox">&ndash;&gt;-->
-<!--&lt;!&ndash;    </v-checkbox>&ndash;&gt;-->
-<!--    <v-btn-->
-<!--        type="primary"-->
-<!--        style="width: 40%;-->
-<!--        background: #505458;-->
-<!--        border: none"-->
-<!--        @click="login">-->
-<!--      Sign in-->
-<!--    </v-btn>-->
-<!--    <router-link to="register">-->
-<!--      <v-btn-->
-<!--          type="primary"-->
-<!--          style="width: 40%;-->
-<!--          background: #505458;-->
-<!--          border: none">-->
-<!--        Register-->
-<!--      </v-btn>-->
-<!--    </router-link>-->
-<!--  </v-form>-->
-<!--  </body>-->
-<!--</template>-->
 
 <script>
 import Vue from "vue"
@@ -83,19 +63,17 @@ extend('required', {
 })
 
 export default {
-  name: "Login",
   data () {
     return {
       rules: [
         value => !!value || 'Required.',
         value => (value && value.length >= 3) || 'Min 3 characters',
       ],
-      // checkbox: true,
+      checkbox: true,
       loginForm: {
         username: '',
         password: ''
       }
-      // loading: false
     }
   },
   methods: {
@@ -109,45 +87,13 @@ export default {
             this.$router.replace({path: '/home'})
           })
           .catch(() => {
-            // window.alert("Your Username or password is wrong");
+            //window.alert("Your Username or password is wrong");
             this.$alert("Your Username or password is wrong")
           })
     }
   }
 }
 </script>
-
-
-<!--<script>-->
-
-
-<!--export default{-->
-
-<!--  methods: {-->
-<!--    login () {-->
-<!--      var _this = this-->
-<!--      this.$axios-->
-<!--          .post('/login', {-->
-<!--            username: this.loginForm.username,-->
-<!--            password: this.loginForm.password-->
-<!--          })-->
-<!--          .then(resp => {-->
-<!--            if (resp.data.code === 200) {-->
-<!--              var data = resp.data.result-->
-<!--              _this.$store.commit('login', data)-->
-<!--              var path = _this.$route.query.redirect-->
-<!--              _this.$router.replace({path: path === '/' || path === undefined ? '/admin/dashboard' : path})-->
-<!--            } else {-->
-<!--              this.$alert(resp.data.message, '提示', {-->
-<!--                confirmbuttonText: '确定'-->
-<!--              })-->
-<!--            }-->
-<!--          })-->
-<!--          // .catch(failResponse => {})-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
 
 <style>
 #paper {
