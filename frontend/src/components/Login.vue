@@ -53,7 +53,6 @@ import axios from "axios";
 import {required} from 'vee-validate/dist/rules'
 import {extend} from 'vee-validate'
 import VueSimpleAlert from "vue-simple-alert"
-import store from '../store'
 
 Vue.use(VueSimpleAlert)
 
@@ -74,7 +73,6 @@ export default {
         username: '',
         password: ''
       },
-      loginStatus: store.state.login
     }
   },
   methods: {

@@ -16,29 +16,30 @@
       <v-img :src="getImageUrl(dish.name)" contain max-height="250px" max-width="250px" class="ma-2"></v-img>
 
       <!--Allergen card-->
-      <v-card class="pa-2 fill-height ma-2" max-width="30%">
+      <v-card class="pa-2 fill-height ma-2" max-width="30%" elevation="0">
         <!--Card title-->
         <v-card-title class="justify-center text-h5 ">Allergens</v-card-title>
 
-        <!--<v-chip-group column>-->
-          <v-chip v-for="item in allergens" :key="item.id"
-                  label color="purple" text-color="white" class="text-h6 ma-1">
-            {{item.name}}
-          </v-chip>
-        <!--</v-chip-group>-->
+        <!--List of Allergens-->
+        <v-list-item v-for="item in allergens" :key="item.id">
+          <v-list-item-content >
+            <v-list-item-title>{{item.name}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-card>
 
       <!--Preference card-->
-      <v-card class="pa-2 fill-height ma-2" max-width="30%">
+      <v-card class="pa-2 fill-height ma-2" max-width="30%" elevation="0">
         <!--Card title-->
         <v-card-title class="justify-center text-h5 ">Preferences</v-card-title>
 
-        <!--<v-chip-group column>-->
-          <v-chip v-for="item in preferences" :key="item.id" label
-                  color="brown" text-color="white">
-            {{item.name}}
-          </v-chip>
-        <!--</v-chip-group>-->
+        <!--List of preferences-->
+        <v-list-item v-for="item in preferences" :key="item.id">
+          <v-list-item-content >
+            <v-list-item-title>{{item.name}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
       </v-card>
     </v-row>
 
@@ -69,11 +70,6 @@
               Rating submitted!
             </v-alert>
           </v-overlay>
-          <!--<v-btn-->
-          <!--    text-->
-          <!--    @click = "asklogin">-->
-          <!--  Submit rating-->
-          <!--</v-btn>-->
         </v-card-actions>
       </v-card>
 
@@ -127,7 +123,7 @@ export default {
   data(){
     return{
       rating: null,
-      allergens: [{id: 1, name: 'peanut'}, {id: 2, name: 'peanut'}, {id: 3, name: 'peanut'}],
+      allergens: [],
       preferences: [],
       comments: [],
       rules: [v => !!v || 'Cannot submit empty comment',
@@ -153,13 +149,14 @@ export default {
     this.ratingAlert = false
     this.commentAlert = false
     this.getComments()
+    this.getPreferences()
+    this.getAllergens()
   },
 
   watch: {
     // allow to submit rating only when a rating is selected
     rating: function (){
       if (this.rating) this.validRating = true
-      console.log(this.rating)
     }
   },
 
@@ -174,7 +171,23 @@ export default {
       }
     },
 
+    async getPreferences(){
+      const param = this.dish
+      await axios
+          .post('/preference/findPreferencesByDish', param)
+          .then(response=>{
+            this.preferences = response.data
+          })
+    },
 
+    async getAllergens(){
+      const param = this.dish
+      await axios
+          .post('/allergen/findAllergensByDish', param)
+          .then(response=>{
+            this.allergens = response.data
+          })
+    },
 
     // method to load all comments
     // TODO: pagination?
@@ -184,7 +197,6 @@ export default {
           .post('/comment/findCommentsByDish', param)
           .then(response=>{
             this.comments = response.data
-            console.log(this.comments)
           })
     },
 

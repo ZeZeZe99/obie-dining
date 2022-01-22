@@ -9,6 +9,7 @@
           </v-avatar>
         </v-row>
         <v-row justify="center">
+          <!--TODO: use variable-->
           name
         </v-row>
         <v-row justify="center">
