@@ -144,7 +144,8 @@ export default {
     // search for the menu information based on selected bar, date, and time slot
     async search(){
       // post body should consist bar, date, and slot
-      const param = {bar: this.currentBar, date: this.date, slot: this.slot}
+      const param = {bar: this.currentBar, date: this.date, slot: this.slot, dish: null}
+      console.log(param)
       await axios
           .post('/menu/findDishesByBarAndDateAndSlot', param)
           .then(response=>{
