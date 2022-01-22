@@ -7,9 +7,6 @@ import com.cs311.backend.service.FoodSearchService;
 import com.cs311.backend.service.DishService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -22,8 +19,8 @@ public class FoodSearchController {
     }
 
 
-    @PostMapping("/foodSearch/findDishesBySortMethod")
-    public List<Dish> findDishesIDByRating(@RequestParam String searchQuery, @RequestParam String orderBy){
-        return dishService.findAllBySomething(searchQuery, orderBy);
+    @PostMapping("/foodSearch/findDishesIDByRating")
+    public List<Dish> findDishesIDByRating(@RequestParam String searchQuery, @RequestParam String sortBy){
+        return dishService.findAllBySomething(searchQuery, sortBy);
     }
 }
