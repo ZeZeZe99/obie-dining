@@ -40,11 +40,11 @@ public class StudentService {
         String password = user.getPassword();
         String tnum = user.getTNumber();
 
-        //username = HtmlUtils.htmlEscape(username);
+        username = HtmlUtils.htmlEscape(username);
         user.setUserName(username);
-        //email = HtmlUtils.htmlEscape(email);
+        email = HtmlUtils.htmlEscape(email);
         user.setEmail(email);
-        //tnum = HtmlUtils.htmlEscape(tnum);
+        tnum = HtmlUtils.htmlEscape(tnum);
         user.setTNumber(tnum);
 
         boolean exist = isExist(username);
