@@ -4,6 +4,7 @@ import com.cs311.backend.entity.Comment;
 import com.cs311.backend.entity.Dish;
 import com.cs311.backend.entity.Student;
 import com.cs311.backend.service.CommentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,5 +28,15 @@ public class CommentController {
     @RequestMapping("/comment/findCommentsByStudent")
     public List<Comment> findCommentsByStudent(@RequestBody Student student){
         return commentService.findCommentsByStudent(student);
+    }
+
+    @RequestMapping("/comment/newComment")
+    public ResponseEntity<String> newComment(@RequestBody Comment comment){
+        try {
+            commentService.newComment(comment);
+            return ResponseEntity.ok("New comment saved!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Fail to submit comment!");
+        }
     }
 }

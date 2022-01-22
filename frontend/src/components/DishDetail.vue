@@ -223,12 +223,27 @@ export default {
     },
 
     // validate and submit the comment
-    submitComment(){
+    async submitComment(){
       if (this.$refs.form.validate()){
-        this.commentSubmitted = true
-        console.log("valid")
+        // if not logged in, prompt user to log in
+        if (!this.$root.login){
+          this.promptLogin()
+        } else {
+          const param = {content: this.newComment, dish: this.dish, student: this.$root.student}
+          // TODO: handle failure alert
+          await axios
+              .post('/comment/newComment', param)
+              .then(response=>{
+                this.commentSubmitted = true
+                this.commentAlert = true
+                console.log(response.data)
+              })
+              .catch(error=>{
+                console.log(error.response.data)
+              })
+        }
       } else {
-        console.log("invalid")
+        this.$alert("Your comment is not valid!")
       }
     },
 
