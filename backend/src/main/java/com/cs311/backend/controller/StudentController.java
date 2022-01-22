@@ -18,7 +18,8 @@ public class StudentController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<Student> login(@RequestBody Student requestUser) {
-        String username = requestUser.getUsername();
+        String username = requestUser.getUserName();
+        username = HtmlUtils.htmlEscape(username);
 
         Student user = studentService.get(username, requestUser.getPassword());
         if (null == user) {
@@ -28,5 +29,16 @@ public class StudentController {
         } else {
             return ResponseEntity.ok(user);
         }
+    }
+    @PostMapping(value = "/register")
+    public ResponseEntity<String> register(@RequestBody Student user) {
+        int status = studentService.register(user);
+        switch (status) {
+            case 1:
+                return ResponseEntity.ok("Success");
+            case 2:
+                return ResponseEntity.badRequest().body("User already exist");
+        }
+        return ResponseEntity.badRequest().body("Unknown Error");
     }
 }

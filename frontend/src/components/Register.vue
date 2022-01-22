@@ -1,62 +1,83 @@
-<!--<template>-->
-
-<!--</template>-->
-
-<!--<script>-->
-<!--export default {-->
-<!--  name: "Register"-->
-<!--}-->
-<!--</script>-->
-
-<!--<style scoped>-->
-
-<!--</style>-->
-
 <template>
   <validation-observer
       ref="observer"
       v-slot="{ invalid }"
   >
-    <form @submit.prevent="submit">
+    <body id="paper">
+    <div
+        @submit.prevent="submit"
+        :model="loginForm"
+        class="login-container"
+        label-position="left"
+        label-width="0px"
+    >
+      <h3 class="login_title">User Register</h3>
       <validation-provider
           v-slot="{ errors }"
-          name="Name"
-          rules="required|max:10"
+          name="UserName"
+          rules="required|max:10|min:3"
       >
         <v-text-field
-            v-model="name"
+            v-model="loginForm.username"
             :counter="10"
             :error-messages="errors"
-            label="Name"
+            label="User Name"
             required
         ></v-text-field>
       </validation-provider>
-      <validation-provider
-          v-slot="{ errors }"
-          name="phoneNumber"
-          :rules="{
-          required: true,
-          digits: 10
-          //regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$'
-        }"
-      >
-        <v-text-field
-            v-model="phoneNumber"
-            :counter="10"
-            :error-messages="errors"
-            label="Phone Number"
-            required
-        ></v-text-field>
-      </validation-provider>
+<!--      <validation-provider-->
+<!--          v-slot="{ errors }"-->
+<!--          name="PhoneNumber"-->
+<!--          :rules="{-->
+<!--          required: true,-->
+<!--          digits: 10-->
+<!--          //regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$'-->
+<!--        }"-->
+<!--      >-->
+<!--        <v-text-field-->
+<!--            v-model="loginForm.phoneNumber"-->
+<!--            :counter="10"-->
+<!--            :error-messages="errors"-->
+<!--            label="Phone Number"-->
+<!--            required-->
+<!--        ></v-text-field>-->
+<!--      </validation-provider>-->
       <validation-provider
           v-slot="{ errors }"
           name="email"
           rules="required|email"
       >
         <v-text-field
-            v-model="email"
+            v-model="loginForm.email"
             :error-messages="errors"
             label="E-mail"
+            required
+        ></v-text-field>
+      </validation-provider>
+      <validation-provider
+          v-slot="{ errors }"
+          name="T_number"
+          rules="required|max:9|min:9"
+      >
+        <v-text-field
+            v-model="loginForm.tnumber"
+            :counter="9"
+            :error-messages="errors"
+            label="T number"
+            required
+        ></v-text-field>
+      </validation-provider>
+      <validation-provider
+          v-slot="{ errors }"
+          name="password"
+          rules="required|max:20|min:6"
+      >
+        <v-text-field
+            v-model="loginForm.password"
+            type = "password"
+            :counter="20"
+            :error-messages="errors"
+            label="Password"
             required
         ></v-text-field>
       </validation-provider>
@@ -65,19 +86,22 @@
           class="mr-4"
           type="submit"
           :disabled="invalid"
+          @click = "register"
       >
         submit
       </v-btn>
       <v-btn @click="clear">
         clear
       </v-btn>
-    </form>
+    </div>
+    </body>
   </validation-observer>
 </template>
 
 <script>
-import { required, digits, email, max, regex } from 'vee-validate/dist/rules'
+import { required, digits, email, max, regex, min} from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+import axios from "axios";
 
 setInteractionMode('eager')
 
@@ -96,6 +120,11 @@ extend('max', {
   message: '{_field_} may not be greater than {length} characters',
 })
 
+extend('min', {
+  ...min,
+  message: '{_field_} may not be less than {length} characters',
+})
+
 extend('regex', {
   ...regex,
   message: '{_field_} {_value_} does not match {regex}',
@@ -111,22 +140,81 @@ export default {
     ValidationProvider,
     ValidationObserver,
   },
-  data: () => ({
-    name: '',
-    phoneNumber: '',
-    email: '',
-  }),
+
+  data () {
+    return {
+      loginForm: {
+        tnumber: '',
+        username: '',
+        password: '',
+        email: ''
+      }
+    }
+  },
 
   methods: {
     submit () {
       this.$refs.observer.validate()
     },
     clear () {
-      this.name = ''
-      this.phoneNumber = ''
-      this.email = ''
+      this.loginForm.email = ''
+      this.loginForm.username = ''
+      this.loginForm.password = ''
+      this.loginForm.tnumber = ''
       this.$refs.observer.reset()
     },
+    async register () {
+      await axios
+          .post('/register', {
+            userName: this.loginForm.username,
+            password: this.loginForm.password,
+            name: this.loginForm.name,
+            email: this.loginForm.email,
+            tnumber: this.loginForm.tnumber
+          })
+          .then(() => {
+            this.$alert(
+                "Registration success",
+                "Success")
+            this.$router.replace({path: '/login'})
+          })
+          .catch(() => {
+            //window.alert("Your Username or password is wrong");
+            this.$alert("Your Username or password is wrong")
+          })
+    }
   },
 }
 </script>
+<style>
+#paper {
+  background:url("../assets/login.jpg") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  position: fixed;
+}
+body{
+  margin: -5px 0px;
+}
+.login-container {
+  border-radius: 15px;
+  background-clip: padding-box;
+  margin: 90px auto;
+  width: 350px;
+  padding: 35px 35px 15px 35px;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 0 25px #cac6c6;
+}
+.login_title {
+  margin: 0px auto 40px auto;
+  text-align: center;
+  color: #505458;
+}
+.login_remember {
+  margin: 0px 0px 35px 0px;
+  text-align: left;
+}
+</style>

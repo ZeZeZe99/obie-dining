@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Integer> {
 
-    @Query(value = "SELECT avg(rating) FROM Rating WHERE dish = ?1")
+    @Query(value = "SELECT avg(rating) FROM Rating WHERE dish = 'Hot Dog'")
     public BigDecimal avgRating(Dish dish);
 
     public Rating findByDishAndStudent(Dish dish, Student student);

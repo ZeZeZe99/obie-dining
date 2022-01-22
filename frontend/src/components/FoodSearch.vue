@@ -44,11 +44,12 @@
                       :loading="loading"
                       :disabled="loading"
                       color="secondary"
-                      @click="loader = 'loading'; searchTheFood()">
+                      @click="searchTheFood(); loader = 'loading'">
                     Search!
                   </v-btn>
         </v-toolbar>
-          <v-card flat style="margin-top: 5px" :key="dummy">
+          <v-card flat style="margin-top: 5px">
+            searching: {{searchQuery}},
             sorted by: {{sortBy}}
           </v-card>
       </v-card>
@@ -100,15 +101,14 @@ export default {
     async searchTheFood(){
       // post body should consist of bar, date, and slot
       const param = {searchQuery: this.searchQuery, sortBy: this.sortBy}
+      console.log(param)
       await axios
-          .post('/FoodSearch/findDishesByBarAndDateAndSlot', param) //TODO
+          .post('/foodSearch/findDishesIDByRating', null, {params: param})
           .then(response=>{
             this.dishes = response.data
+            console.log(this.dishes)
           })
     },
-    // lalala(){
-    //   this.sortBy = 'lalala'
-    // }
   }
 }
 </script>

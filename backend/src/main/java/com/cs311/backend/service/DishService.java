@@ -19,6 +19,13 @@ public class DishService{
         return dishRepository.save(dish);
     }
 
+    public List<Dish> findAllBySomething(String searchQuery, String sortBy)
+    {   //boolean a;
+//        if (sortBy.compareTo("1") > 0)
+//        {a = false;}
+        List<Dish> a = dishRepository.findDishesByNameLike(searchQuery);
+        return a;}
+
 //    public Dish getDishBy(Integer dishID){
 //        return dishRepository.getDishById(dishID);
 //    }
