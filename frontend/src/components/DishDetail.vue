@@ -69,11 +69,11 @@
               Rating submitted!
             </v-alert>
           </v-overlay>
-          <v-btn
-              text
-              @click = "asklogin">
-            Submit rating
-          </v-btn>
+          <!--<v-btn-->
+          <!--    text-->
+          <!--    @click = "asklogin">-->
+          <!--  Submit rating-->
+          <!--</v-btn>-->
         </v-card-actions>
       </v-card>
 
@@ -173,16 +173,8 @@ export default {
         return require('@/assets/no image.jpeg')
       }
     },
-    asklogin() {
-      this.$confirm("You need to sign in")
-          .then((r) => {
-            console.log(r);
-            this.$router.replace({path: '/login'})
-          })
-          .catch(() => {
-            console.log("OK not selected.");
-          });
-    },
+
+
 
     // method to load all comments
     // TODO: pagination?
@@ -196,23 +188,38 @@ export default {
           })
     },
 
+    // check whether the user has already login
+    promptLogin() {
+      this.$confirm("You need to sign in")
+          .then((r) => {
+            console.log(r)
+            this.$router.replace({path: '/login'})
+          })
+          .catch(() => {
+            console.log("OK not selected.");
+          });
+    },
+
     // method to submit current rating
     // TODO: pass in student
     async submitRating(){
-      const param = {rating: this.rating, dish: this.dish}
-      console.log(this.rating)
-      // TODO: handle failure alert
-      await axios
-          .post('/rating/newRating', param)
-          .then(response=>{
-            this.ratingSubmitted = true
-            this.ratingAlert = true
-            console.log(response.data)
-          })
-          .catch(error=>{
-            console.log(error.response.data)
-          })
-
+      // if not logged in, prompt user to log in
+      if (!this.$root.login){
+        this.promptLogin()
+      } else {
+        const param = {rating: this.rating, dish: this.dish, student: this.$root.student}
+        // TODO: handle failure alert
+        await axios
+            .post('/rating/newRating', param)
+            .then(response=>{
+              this.ratingSubmitted = true
+              this.ratingAlert = true
+              console.log(response.data)
+            })
+            .catch(error=>{
+              console.log(error.response.data)
+            })
+      }
     },
 
     // validate and submit the comment

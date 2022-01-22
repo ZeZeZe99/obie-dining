@@ -17,21 +17,16 @@ public class StudentController {
     { this.studentService = studentService; }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<String> login(@RequestBody Student requestUser) {
+    public ResponseEntity<Student> login(@RequestBody Student requestUser) {
         String username = requestUser.getUsername();
-        //username = HtmlUtils.htmlEscape(username);
 
-//        try{
-//            //Student user = studentService.get(username, requestUser.getPassword());
-//            return ResponseEntity.ok("Yeah");
-//        } catch (Exception x) {
-//            return ResponseEntity.badRequest().body("Wrong password or username");
-//        }
         Student user = studentService.get(username, requestUser.getPassword());
         if (null == user) {
-            return ResponseEntity.badRequest().body("Wrong password or username");
+            return ResponseEntity.badRequest()
+                    .header("errormessage", "Wrong username or password!")
+                    .body(null);
         } else {
-            return ResponseEntity.ok("Yeah");
+            return ResponseEntity.ok(user);
         }
     }
 }

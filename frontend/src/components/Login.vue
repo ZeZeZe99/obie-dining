@@ -53,6 +53,7 @@ import axios from "axios";
 import {required} from 'vee-validate/dist/rules'
 import {extend} from 'vee-validate'
 import VueSimpleAlert from "vue-simple-alert"
+import store from '../store'
 
 Vue.use(VueSimpleAlert)
 
@@ -72,7 +73,8 @@ export default {
       loginForm: {
         username: '',
         password: ''
-      }
+      },
+      loginStatus: store.state.login
     }
   },
   methods: {
@@ -82,12 +84,15 @@ export default {
             username: this.loginForm.username,
             password: this.loginForm.password
           })
-          .then(() => {
+          .then(response => {
+            this.$root.login = true
+            this.$root.student = response.data
             this.$router.replace({path: '/home'})
           })
-          .catch(() => {
+          .catch(error => {
             //window.alert("Your Username or password is wrong");
-            this.$alert("Your Username or password is wrong")
+            // this.$alert("Your Username or password is wrong")
+            this.$alert(error.response.headers.errormessage)
           })
     },
     navigate(page){
