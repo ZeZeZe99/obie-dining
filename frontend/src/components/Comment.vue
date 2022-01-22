@@ -10,15 +10,15 @@
         </v-row>
         <v-row justify="center">
           <!--TODO: use variable-->
-          name
+          {{ comment.student.username }}
         </v-row>
-        <v-row justify="center">
-          time
-        </v-row>
+        <!--<v-row justify="center">-->
+        <!--  time-->
+        <!--</v-row>-->
       </v-col>
 
       <v-col>
-        <v-card-text>Comments</v-card-text>
+        <v-card-text>{{ comment.content }}</v-card-text>
       </v-col>
 
 

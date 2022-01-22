@@ -197,6 +197,7 @@ export default {
           .post('/comment/findCommentsByDish', param)
           .then(response=>{
             this.comments = response.data
+            console.log(this.comments)
           })
     },
 
