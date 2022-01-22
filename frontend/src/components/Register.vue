@@ -4,6 +4,13 @@
       v-slot="{ invalid }"
   >
     <body id="paper">
+    <h1
+        class="gen_title"
+        type="text"
+        @click="navigate('home')"
+    >
+      Obie Dining
+    </h1>
     <div
         @submit.prevent="submit"
         :model="loginForm"
@@ -182,6 +189,9 @@ export default {
             //window.alert("Your Username or password is wrong");
             this.$alert("Your Username or password is wrong")
           })
+    },
+    navigate(page){
+      this.$router.push(page)
     }
   },
 }
@@ -201,7 +211,7 @@ body{
 .login-container {
   border-radius: 15px;
   background-clip: padding-box;
-  margin: 90px auto;
+  margin: 30px auto;
   width: 350px;
   padding: 35px 35px 15px 35px;
   background: #fff;
@@ -213,8 +223,9 @@ body{
   text-align: center;
   color: #505458;
 }
-.login_remember {
-  margin: 0px 0px 35px 0px;
-  text-align: left;
+.gen_title {
+  margin: 70px;
+  /*text-align: center;*/
+  color: #111213;
 }
 </style>
