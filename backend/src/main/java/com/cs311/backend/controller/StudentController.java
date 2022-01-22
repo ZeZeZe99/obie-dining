@@ -19,14 +19,8 @@ public class StudentController {
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody Student requestUser) {
         String username = requestUser.getUsername();
-        //username = HtmlUtils.htmlEscape(username);
+        username = HtmlUtils.htmlEscape(username);
 
-//        try{
-//            //Student user = studentService.get(username, requestUser.getPassword());
-//            return ResponseEntity.ok("Yeah");
-//        } catch (Exception x) {
-//            return ResponseEntity.badRequest().body("Wrong password or username");
-//        }
         Student user = studentService.get(username, requestUser.getPassword());
         if (null == user) {
             return ResponseEntity.badRequest().body("Wrong password or username");
