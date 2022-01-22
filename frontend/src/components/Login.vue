@@ -30,20 +30,19 @@
     <v-btn
         type="primary"
         style="width: 40%;
-        background: #505458;
+        background: #a6abaf;
         border: none"
         @click="login">
       Sign in
     </v-btn>
-    <router-link to="register">
       <v-btn
           type="primary"
           style="width: 40%;
-          background: #505458;
-          border: none">
+          background: #a6abaf;
+          border: none"
+          @click= "navigate('register')">
         Register
       </v-btn>
-    </router-link>
   </div>
   </body>
 </template>
@@ -67,7 +66,7 @@ export default {
     return {
       rules: [
         value => !!value || 'Required.',
-        value => (value && value.length >= 3) || 'Min 3 characters',
+        value => (value && value.length >= 6) || 'Min 6 characters',
       ],
       checkbox: true,
       loginForm: {
@@ -90,6 +89,9 @@ export default {
             //window.alert("Your Username or password is wrong");
             this.$alert("Your Username or password is wrong")
           })
+    },
+    navigate(page){
+      this.$router.push(page)
     }
   }
 }
