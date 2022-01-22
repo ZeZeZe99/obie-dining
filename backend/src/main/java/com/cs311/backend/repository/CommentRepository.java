@@ -14,4 +14,8 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     List<Comment> findCommentsByDish(Dish dish);
 
     List<Comment> findCommentsByStudent(Student student);
+
+    List<Comment> findCommentsByDishAndStudentAndContent(Dish dish, Student student, String content);
+
+
 }

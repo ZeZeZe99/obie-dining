@@ -13,7 +13,7 @@ public class Comment {
     private Integer id;
 
     @Column(length = 300)
-    private String comment;
+    private String content;
 
     @ManyToOne
     private Student student;
