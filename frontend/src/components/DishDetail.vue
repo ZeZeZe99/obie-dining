@@ -55,7 +55,11 @@
         <v-rating half-increments hover dense size="20" :value="rating"></v-rating>
         <v-divider></v-divider>
         <v-card-actions class="justify-center">
-          <v-btn text >Submit rating</v-btn>
+          <v-btn
+              text
+              @click = "asklogin">
+            Submit rating
+          </v-btn>
         </v-card-actions>
       </v-card>
 
@@ -99,6 +103,16 @@ export default {
         return require('@/assets/no image.jpeg')
       }
     },
+    asklogin() {
+      this.$confirm("You need to sign in")
+          .then((r) => {
+            console.log(r);
+            this.$router.replace({path: '/login'})
+          })
+          .catch(() => {
+            console.log("OK not selected.");
+          });
+    }
   }
 }
 </script>
