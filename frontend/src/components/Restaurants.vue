@@ -20,6 +20,7 @@
 // import children component
 import RestaurantCard from "@/components/RestaurantCard";
 import axios from "axios";
+import store from '../store'
 export default {
   name: "Restaurants",
   // components imported
@@ -29,7 +30,8 @@ export default {
   data(){
     // need to return the variables if you want to use it in the template
     return{
-      restaurants: []
+      restaurants: [],
+      login: store.state.login
     }
   },
 
@@ -40,7 +42,7 @@ export default {
 
   // codes that will run when the component is mounted (after created)
   mounted() {
-    this.getRestaurants();
+    this.getRestaurants()
   },
 
   // define methods
