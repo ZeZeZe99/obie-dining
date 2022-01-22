@@ -1,10 +1,12 @@
 package com.cs311.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,6 +22,15 @@ public class Dish {
 
     @Column(precision = 5, scale = 2) // 5 digits, 2 to the right of the decimal point
     private BigDecimal price;
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "dish_preference",
+//            joinColumns = @JoinColumn(name = "dish_id"),
+//            inverseJoinColumns = @JoinColumn(name = "preference_id")
+//    )
+//    @JsonManagedReference
+//    private List<Preference> preferences;
 
     // create a unidirectional many-to-one relationship to Bar
 //    @ManyToOne(targetEntity = Bar.class, fetch = FetchType.LAZY)

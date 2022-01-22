@@ -15,7 +15,7 @@
       <validation-provider
           v-slot="{ errors }"
           name="UserName"
-          rules="required|max:10"
+          rules="required|max:10|min:3"
       >
         <v-text-field
             v-model="loginForm.username"
@@ -25,23 +25,23 @@
             required
         ></v-text-field>
       </validation-provider>
-      <validation-provider
-          v-slot="{ errors }"
-          name="PhoneNumber"
-          :rules="{
-          required: true,
-          digits: 10
-          //regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$'
-        }"
-      >
-        <v-text-field
-            v-model="loginForm.phoneNumber"
-            :counter="10"
-            :error-messages="errors"
-            label="Phone Number"
-            required
-        ></v-text-field>
-      </validation-provider>
+<!--      <validation-provider-->
+<!--          v-slot="{ errors }"-->
+<!--          name="PhoneNumber"-->
+<!--          :rules="{-->
+<!--          required: true,-->
+<!--          digits: 10-->
+<!--          //regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$'-->
+<!--        }"-->
+<!--      >-->
+<!--        <v-text-field-->
+<!--            v-model="loginForm.phoneNumber"-->
+<!--            :counter="10"-->
+<!--            :error-messages="errors"-->
+<!--            label="Phone Number"-->
+<!--            required-->
+<!--        ></v-text-field>-->
+<!--      </validation-provider>-->
       <validation-provider
           v-slot="{ errors }"
           name="email"
@@ -147,7 +147,6 @@ export default {
         tnumber: '',
         username: '',
         password: '',
-        phoneNumber: '',
         email: ''
       }
     }
@@ -158,7 +157,6 @@ export default {
       this.$refs.observer.validate()
     },
     clear () {
-      this.loginForm.phoneNumber = ''
       this.loginForm.email = ''
       this.loginForm.username = ''
       this.loginForm.password = ''
@@ -168,11 +166,11 @@ export default {
     async register () {
       await axios
           .post('/register', {
-            username: this.loginForm.username,
+            userName: this.loginForm.username,
             password: this.loginForm.password,
             name: this.loginForm.name,
-            phone: this.loginForm.phone,
-            email: this.loginForm.email
+            email: this.loginForm.email,
+            tnumber: this.loginForm.tnumber
           })
           .then(() => {
             this.$alert(
@@ -188,124 +186,6 @@ export default {
   },
 }
 </script>
-
-<!--<template>-->
-<!--  <body id="paper">-->
-<!--  <v-form-->
-<!--      :model="loginForm"-->
-<!--      :rules="rules"-->
-<!--      class="login-container"-->
-<!--      label-position="left"-->
-<!--      label-width="0px">-->
-<!--    <h3 class="login_title">用户注册</h3>-->
-<!--    <v-text-field>-->
-<!--&lt;!&ndash;      <v-input&ndash;&gt;-->
-<!--          type="text"-->
-<!--          v-model="loginForm.username"-->
-<!--          auto-complete="off"-->
-<!--          placeholder="账号">-->
-<!--&lt;!&ndash;      </v-input>&ndash;&gt;-->
-<!--    </v-text-field>-->
-<!--    <v-text-field>-->
-<!--&lt;!&ndash;      <v-input&ndash;&gt;-->
-<!--          type="password"-->
-<!--          v-model="loginForm.password"-->
-<!--          auto-complete="off"-->
-<!--          placeholder="密码">-->
-<!--&lt;!&ndash;      </v-input>&ndash;&gt;-->
-<!--    </v-text-field>-->
-<!--    <v-text-field>-->
-<!--&lt;!&ndash;      <v-input&ndash;&gt;-->
-<!--          type="text"-->
-<!--          v-model="loginForm.name"-->
-<!--          auto-complete="off"-->
-<!--          placeholder="真实姓名">-->
-<!--&lt;!&ndash;      </v-input>&ndash;&gt;-->
-<!--    </v-text-field>-->
-<!--    <v-text-field>-->
-<!--&lt;!&ndash;      <v-input&ndash;&gt;-->
-<!--          type="text"-->
-<!--          v-model="loginForm.phone"-->
-<!--          auto-complete="off"-->
-<!--          placeholder="电话号码">-->
-<!--&lt;!&ndash;      </v-input>&ndash;&gt;-->
-<!--    </v-text-field>-->
-<!--    <v-text-field>-->
-<!--&lt;!&ndash;      <v-input&ndash;&gt;-->
-<!--          type="text"-->
-<!--          v-model="loginForm.email"-->
-<!--          auto-complete="off"-->
-<!--          placeholder="E-Mail">-->
-<!--&lt;!&ndash;      </v-input>&ndash;&gt;-->
-<!--    </v-text-field>-->
-<!--&lt;!&ndash;    <v-text-field style="width: 100%">&ndash;&gt;-->
-<!--      <v-btn-->
-<!--          type="primary"-->
-<!--          style="width: 40%;-->
-<!--          background: #a6abaf;-->
-<!--          border: none"-->
-<!--          v-on:click="register">-->
-<!--        注册-->
-<!--      </v-btn>-->
-<!--&lt;!&ndash;    </v-text-field>&ndash;&gt;-->
-<!--  </v-form>-->
-<!--  </body>-->
-<!--</template>-->
-<!--<script>-->
-<!--export default{-->
-<!--  data () {-->
-<!--    return {-->
-<!--      // rules: {-->
-<!--      //   username: [{required: true, message: '用户名不能为空', trigger: 'blur'}],-->
-<!--      //   password: [{required: true, message: '密码不能为空', trigger: 'blur'}]-->
-<!--      // },-->
-<!--      checked: true,-->
-<!--      loginForm: {-->
-<!--        username: '',-->
-<!--        password: '',-->
-<!--        name: '',-->
-<!--        phone: '',-->
-<!--        email: ''-->
-<!--      }-->
-<!--    }-->
-<!--  },-->
-<!--  methods: {-->
-<!--    submit () {-->
-<!--      this.$refs.observer.validate()-->
-<!--    },-->
-<!--    clear () {-->
-<!--      this.name = ''-->
-<!--      this.phoneNumber = ''-->
-<!--      this.email = ''-->
-<!--      this.$refs.observer.reset()-->
-<!--    },-->
-<!--    register () {-->
-<!--      var _this = this-->
-<!--      this.$axios-->
-<!--          .post('/register', {-->
-<!--            username: this.loginForm.username,-->
-<!--            password: this.loginForm.password,-->
-<!--            name: this.loginForm.name,-->
-<!--            phone: this.loginForm.phone,-->
-<!--            email: this.loginForm.email-->
-<!--          })-->
-<!--          .then(resp => {-->
-<!--            if (resp.data.code === 200) {-->
-<!--              this.$alert('注册成功', '提示', {-->
-<!--                confirmButtonText: '确定'-->
-<!--              })-->
-<!--              _this.$router.replace('/login')-->
-<!--            } else {-->
-<!--              this.$alert(resp.data.message, '提示', {-->
-<!--                confirmButtonText: '确定'-->
-<!--              })-->
-<!--            }-->
-<!--          })-->
-<!--          // .catch(failResponse => {})-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
 <style>
 #paper {
   background:url("../assets/login.jpg") no-repeat;

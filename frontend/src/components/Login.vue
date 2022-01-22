@@ -53,7 +53,6 @@ import axios from "axios";
 import {required} from 'vee-validate/dist/rules'
 import {extend} from 'vee-validate'
 import VueSimpleAlert from "vue-simple-alert"
-import store from '../store'
 
 Vue.use(VueSimpleAlert)
 
@@ -67,21 +66,20 @@ export default {
     return {
       rules: [
         value => !!value || 'Required.',
-        value => (value && value.length >= 6) || 'Min 6 characters',
+        value => (value && value.length >= 3) || 'Min 3 characters',
       ],
       checkbox: true,
       loginForm: {
         username: '',
         password: ''
       },
-      loginStatus: store.state.login
     }
   },
   methods: {
     async login() {
       await axios
           .post('/login', {
-            username: this.loginForm.username,
+            userName: this.loginForm.username,
             password: this.loginForm.password
           })
           .then(response => {
@@ -89,10 +87,10 @@ export default {
             this.$root.student = response.data
             this.$router.replace({path: '/home'})
           })
-          .catch(error => {
+          .catch(() => {
             //window.alert("Your Username or password is wrong");
-            // this.$alert("Your Username or password is wrong")
-            this.$alert(error.response.headers.errormessage)
+            this.$alert("Your Username or password is wrong")
+            //this.$alert(error.response.headers.errormessage)
           })
     },
     navigate(page){
