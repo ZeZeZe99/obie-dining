@@ -55,7 +55,7 @@
         </v-card-text>
 
         <!--Rating-->
-        <v-rating half-increments hover dense size="25" :value="avgRating" v-model="rating"
+        <v-rating half-increments hover dense size="25" v-model="rating"
                   :readonly="ratingSubmitted"></v-rating>
         <v-divider></v-divider>
 
@@ -90,7 +90,7 @@
           <!--Overlay that displays success alert-->
           <v-overlay absolute :value="commentAlert">
             <v-alert v-model="commentAlert" dismissible dense type="success">
-              Rating submitted!
+              Comment submitted!
             </v-alert>
           </v-overlay>
         </v-form>
@@ -140,7 +140,8 @@ export default {
   },
 
   created() {
-    // this.rating = this.avgRating
+    this.rating = this.avgRating
+    console.log(this.avgRating)
   },
 
   mounted() {

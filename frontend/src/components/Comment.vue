@@ -10,7 +10,7 @@
         </v-row>
         <v-row justify="center">
           <!--TODO: use variable-->
-          {{ comment.student.username }}
+          {{ comment.student.userName }}
         </v-row>
         <!--<v-row justify="center">-->
         <!--  time-->
