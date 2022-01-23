@@ -32,23 +32,6 @@
             required
         ></v-text-field>
       </validation-provider>
-<!--      <validation-provider-->
-<!--          v-slot="{ errors }"-->
-<!--          name="PhoneNumber"-->
-<!--          :rules="{-->
-<!--          required: true,-->
-<!--          digits: 10-->
-<!--          //regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$'-->
-<!--        }"-->
-<!--      >-->
-<!--        <v-text-field-->
-<!--            v-model="loginForm.phoneNumber"-->
-<!--            :counter="10"-->
-<!--            :error-messages="errors"-->
-<!--            label="Phone Number"-->
-<!--            required-->
-<!--        ></v-text-field>-->
-<!--      </validation-provider>-->
       <validation-provider
           v-slot="{ errors }"
           name="email"
@@ -186,7 +169,6 @@ export default {
             this.$router.replace({path: '/login'})
           })
           .catch(() => {
-            //window.alert("Your Username or password is wrong");
             this.$alert("Your Username or password is wrong")
           })
     }  ,

@@ -95,9 +95,7 @@ export default {
             this.$router.replace({path: '/home'})
           })
           .catch(() => {
-            //window.alert("Your Username or password is wrong");
             this.$alert("Your Username or password is wrong")
-            //this.$alert(error.response.headers.errormessage)
           })
     },
     navigate(page){
@@ -140,7 +138,6 @@ body{
 }
 .gen_title {
   margin: 70px;
-  /*text-align: center;*/
   color: #111213;
 }
 </style>

@@ -11,8 +11,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 
     Student findByUserName(String username);
 
-    //Student getByUsernameAndPassword(String username,String password);
-
     Student getByUserNameAndPassword(String username,String password);
 
 }
