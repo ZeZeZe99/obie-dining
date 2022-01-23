@@ -96,10 +96,12 @@ export default {
           .post('/rating/avg', param)
           .then(response=>{
             this.rating = response.data
+            if (this.rating === ''){
+              this.rating = 0
+            }
+            console.log(response.data)
           })
-      if (this.rating === ''){
-        this.rating = 0
-      }
+
     }
   }
 }
