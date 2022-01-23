@@ -38,7 +38,13 @@
                         </v-list-item>
                       </v-list-item-group>
                     </v-list>
+
                   </v-menu>
+                  <v-btn
+                      color="primary"
+                      @click="changeSeq">
+                    {{ sequence }}
+                  </v-btn>
                   <v-btn
                       class="ma-2"
                       :loading="loading"
@@ -50,12 +56,11 @@
         </v-toolbar>
           <v-card flat style="margin-top: 5px">
             searching: {{searchQuery}},
-            sorted by: {{sortBy}}
+            sorted by: {{sortBy}} {{sequence}}
           </v-card>
       </v-card>
     </v-container>
     <v-card flat>
-      <EmptyCard v-show="dishes.length===0"></EmptyCard>
       <Dish v-for="d in dishes" :key="d.id" :dish="d"></Dish>
     </v-card>
   </div>
@@ -72,14 +77,16 @@ export default {
   components: {Dish, EmptyCard},
   data: () => ({
     sortItems: [
-      { title: 'Rating' },
-      { title: 'Popularity' },
+      { title: 'name'},
+      { title: 'calories' },
+      { title: 'price' },
     ],
     searchQuery: null,
-    sortBy: 'Rating',
+    sortBy: 'name',
     loader: null,
     loading: false,
     dishes: [],
+    sequence: 'asc',
   }),
 
   watch: {
@@ -87,7 +94,7 @@ export default {
       const l = this.loader
       this[l] = !this[l]
 
-      setTimeout(() => (this[l] = false), 3000)
+      setTimeout(() => (this[l] = false), 1000)
 
       this.loader = null
     },
@@ -100,7 +107,7 @@ export default {
     // search for the dishes like searchQuery, sorted by sortBy.
     async searchTheFood(){
       // post body should consist of bar, date, and slot
-      const param = {searchQuery: this.searchQuery, sortBy: this.sortBy}
+      const param = {searchQuery: this.searchQuery, sortBy: this.sortBy, sequence: this.sequence}
       console.log(param)
       await axios
           .post('/foodSearch/findDishesIDByRating', null, {params: param})
@@ -109,6 +116,15 @@ export default {
             console.log(this.dishes)
           })
     },
+
+    changeSeq: function(){
+      if(this.sequence == 'asc'){
+        this.sequence = 'desc'
+      } else {
+        this.sequence = 'asc'
+      }
+    }
+
   }
 }
 </script>
