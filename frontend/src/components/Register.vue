@@ -189,7 +189,7 @@ export default {
             //window.alert("Your Username or password is wrong");
             this.$alert("Your Username or password is wrong")
           })
-    },
+    }  ,
     navigate(page){
       this.$router.push(page)
     }
