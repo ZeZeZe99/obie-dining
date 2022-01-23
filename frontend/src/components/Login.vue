@@ -1,5 +1,12 @@
 <template>
   <body id="paper">
+  <h1
+      class="gen_title"
+      type="text"
+      @click="navigate('home')"
+  >
+    Obie Dining
+  </h1>
   <div
       class="login-container"
       labv-position="left"
@@ -115,7 +122,7 @@ body{
 .login-container {
   border-radius: 15px;
   background-clip: padding-box;
-  margin: 90px auto;
+  margin: 30px auto;
   width: 350px;
   padding: 35px 35px 15px 35px;
   background: #fff;
@@ -130,5 +137,10 @@ body{
 .login_remember {
   margin: 0px 0px 35px 0px;
   text-align: left;
+}
+.gen_title {
+  margin: 70px;
+  /*text-align: center;*/
+  color: #111213;
 }
 </style>

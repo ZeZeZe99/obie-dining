@@ -7,6 +7,8 @@ import Restaurants from "@/components/Restaurants";
 import FoodSearch from "@/components/FoodSearch";
 import Login from '@/components/Login';
 import Register from '@/components/Register';
+import Contact from "@/components/Contact";
+import About from "@/components/About";
 
 Vue.use(Router)
 
@@ -34,7 +36,19 @@ const routes = [
                 name: 'hello',
                 title: 'Hello World',
                 component: HelloWorld
-            }
+            },
+            {
+                path: '/contact',
+                name: 'contact',
+                title: 'contact',
+                component: Contact
+            },
+            {
+                path: '/about',
+                name: 'about',
+                title: 'about',
+                component: About
+            },
         ]
     },
     {

@@ -20,7 +20,7 @@ public class FoodSearchController {
 
 
     @PostMapping("/foodSearch/findDishesIDByRating")
-    public List<Dish> findDishesIDByRating(@RequestParam String searchQuery, @RequestParam String sortBy){
-        return dishService.findAllBySomething(searchQuery, sortBy);
+    public List<Dish> findDishesIDByRating(@RequestParam String searchQuery, @RequestParam String sortBy, @RequestParam String sequence){
+        return dishService.findAllBySomething(searchQuery, sortBy, sequence);
     }
 }
